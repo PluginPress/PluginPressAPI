@@ -1,7 +1,7 @@
 {
   "name": "iamprogrammerlk/pluginpressapi",
   "description": "API wrapper classes for building object-oriented WordPress plugins.",
-  "type": "project",
+  "type": "library",
   "keywords": [
     "wordpress",
     "plugins",
