@@ -58,7 +58,7 @@
     "IamProgrammerLK\\PluginPressAPI\\": "Private"
   }
 },
-"minimum-stability": "stable",
-"prefer-stable": false,
+"minimum-stability": "dev",
+"prefer-stable": true,
 "abandoned": false
 }
