@@ -1,0 +1,64 @@
+{
+  "name": "iamprogrammerlk/pluginpressapi",
+  "description": "API wrapper classes for building object-oriented WordPress plugins.",
+  "type": "project",
+  "keywords": [
+    "wordpress",
+    "plugins",
+    "api",
+    "framework",
+    "skeleton"
+  ],
+  "homepage": "https://iamprogrammerlk.github.io/PluginPressAPI/",
+  "readme": "README.md",
+  "time": "2021-07-27",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "I am Programmer",
+      "email": "iamprogrammerlk@gmail.com",
+      "homepage": "https://iamprogrammer.lk",
+      "role": "Lead Developer"
+    }
+  ],
+  "support": {
+    "email": "support@iamprogrammer.lk",
+    "issues": "https://github.com/IamProgrammerLK/PluginPressAPI/issues",
+    "forum": "https://community.iamprogrammer.lk",
+    "wiki": "https://github.com/IamProgrammerLK/PluginPressAPI/wiki",
+    "source": "https://github.com/IamProgrammerLK/PluginPressAPI",
+    "docs": "https://github.com/IamProgrammerLK/PluginPressAPI/wiki"
+  },
+  "funding": [
+    {
+        "type": "Buy me a coffee",
+        "url": "https://www.buymeacoffee.com/IamProgrammerLK"
+    },
+    {
+        "type": "Sponsors",
+        "url": "https://sponsors.iamprogrammer.lk/"
+    }
+],
+"require": {
+  "php": ">=7.0.0"
+},
+"require-dev": {
+  "php": ">=7.0.0"
+},
+"conflict": {
+  "php": "<7.0.0"
+},
+"autoload": {
+  "psr-4": {
+    "IamProgrammerLK\\PluginPressAPI\\": "Private"
+  }
+},
+"autoload-dev": {
+  "psr-4": {
+    "IamProgrammerLK\\PluginPressAPI\\": "Private"
+  }
+},
+"minimum-stability": "stable",
+"prefer-stable": true,
+"abandoned": false
+}
