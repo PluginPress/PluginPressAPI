@@ -71,10 +71,10 @@ require_once trailingslashit( dirname( __FILE__ ) ) . 'vendor/autoload.php';
 // }
 // register_deactivation_hook( __FILE__, 'IamProgrammerLK\PluginPress\pluginDeactivationHook' );
 
-// // initiate the plugin
-// if( ! class_exists( 'PluginPress' ) )
-// {
-//     $pluginOptions = require( 'Private/PluginOptions.php' );
-//     $pluginpress = new PluginPress( $pluginOptions );
-//     $pluginpress->init();
-// }
+// initiate the plugin
+if( ! class_exists( 'PluginPressAPI' ) )
+{
+    // $pluginOptions = require( 'Private/PluginOptions.php' );
+    $pluginpressAPI = new PluginPressAPI();
+    $pluginpressAPI->init();
+}
