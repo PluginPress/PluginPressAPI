@@ -46,42 +46,39 @@ namespace IamProgrammerLK\Tests;
 
 use IamProgrammerLK\PluginPressAPI\PluginOptions\PluginOptions;
 
+use IamProgrammerLK\Tests\PluginActivator\PluginActivator;
+
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )
 {
     die;
 }
 
-// Dynamically include the classes.
+// Dynamically include all the classes.
 require_once trailingslashit( dirname( __FILE__ ) ) . 'vendor/autoload.php';
 
+// triggers when the plugin is activated
+function pluginActivationHook()
+{
+    PluginOptions::setInstance( __FILE__, plugin_dir_path( __FILE__ ) . 'Tests/Configs/PluginOptions.php' );
+    $pluginActivator = new PluginActivator();
+    $pluginActivator->activate();
+}
+register_activation_hook( __file__, 'IamProgrammerLK\Tests\pluginActivationHook' );
 
-
-// // triggers when the plugin is activated
-// function pluginActivationHook()
-// {
-//     $pluginOptions = require( 'Private/PluginOptions.php' );
-//     $pluginActivator = new PluginActivator( $pluginOptions );
-//     $pluginActivator->activate();
-// }
-// register_activation_hook( __file__, 'IamProgrammerLK\PluginPress\pluginActivationHook' );
-
-// // triggers when the plugin is deactivated
-// function pluginDeactivationHook()
-// {
-//     $pluginOptions = require( 'Private/PluginOptions.php' );
-//     $pluginActivator = new PluginActivator( $pluginOptions );
-//     $pluginActivator->deactivate();
-// }
-// register_deactivation_hook( __FILE__, 'IamProgrammerLK\PluginPress\pluginDeactivationHook' );
+// triggers when the plugin is deactivated
+function pluginDeactivationHook()
+{
+    PluginOptions::setInstance( __FILE__, plugin_dir_path( __FILE__ ) . 'Tests/Configs/PluginOptions.php' );
+    $pluginActivator = new PluginActivator();
+    $pluginActivator->deactivate();
+}
+register_deactivation_hook( __FILE__, 'IamProgrammerLK\Tests\pluginDeactivationHook' );
 
 // initiate the plugin
-if( ! class_exists( 'DemoPlugin' ) )
+if( ! class_exists( 'TestPlugin' ) )
 {
-    // $string - absolute path for the primary plugin file
-    // $string - absolute path for the plugin config file
     PluginOptions::setInstance( __FILE__, plugin_dir_path( __FILE__ ) . 'Tests/Configs/PluginOptions.php' );
-    $demoPlugin = new DemoPlugin();
-    $demoPlugin->init();
+    $testPlugin = new TestPlugin();
+    $testPlugin->init();
 }
-
