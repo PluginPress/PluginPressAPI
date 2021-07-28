@@ -42,7 +42,9 @@
 ** Since                1.0.0 (2021-07-26)
 */
 
-namespace IamProgrammerLK\PluginPressAPI;
+namespace IamProgrammerLK\Tests;
+
+use IamProgrammerLK\PluginPressAPI\PluginOptions\PluginOptions;
 
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )
@@ -52,6 +54,8 @@ if( ! defined( 'WPINC' ) )
 
 // Dynamically include the classes.
 require_once trailingslashit( dirname( __FILE__ ) ) . 'vendor/autoload.php';
+
+
 
 // // triggers when the plugin is activated
 // function pluginActivationHook()
@@ -72,9 +76,12 @@ require_once trailingslashit( dirname( __FILE__ ) ) . 'vendor/autoload.php';
 // register_deactivation_hook( __FILE__, 'IamProgrammerLK\PluginPress\pluginDeactivationHook' );
 
 // initiate the plugin
-if( ! class_exists( 'PluginPressAPI' ) )
+if( ! class_exists( 'DemoPlugin' ) )
 {
-    // $pluginOptions = require( 'Private/PluginOptions.php' );
-    $pluginpressAPI = new PluginPressAPI();
-    $pluginpressAPI->init();
+    // $string - absolute path for the primary plugin file
+    // $string - absolute path for the plugin config file
+    PluginOptions::setInstance( __FILE__, plugin_dir_path( __FILE__ ) . 'Tests/Configs/PluginOptions.php' );
+    $demoPlugin = new DemoPlugin();
+    $demoPlugin->init();
 }
+
