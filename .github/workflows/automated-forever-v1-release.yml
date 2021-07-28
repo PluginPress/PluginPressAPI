@@ -1,5 +1,5 @@
 # https://github.com/marketplace/actions/automatic-releases
-name: "Automated forever v1 release"
+name: "Automated Forever v1 Release"
 on:
   push:
     branches:
@@ -15,7 +15,7 @@ jobs:
           # GitHub secret token
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           # Git tag (for automatic releases)
-          automatic_release_tag: "v1.0.0"
+          automatic_release_tag: "1.0.0"
           # Should this release be marked as a draft?
           draft: false
           # Should this release be marked as a pre-release?
