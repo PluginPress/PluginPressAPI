@@ -12,11 +12,15 @@ class PluginOptions
 {
 
     private $pluginOptions = [];
-    private static $instance = null;
 
-    private function __construct( array $pluginOptions )
+    public function __construct( string $pluginFilePath, string $configFilePath )
     {
-        $this->pluginOptions = $pluginOptions;
+        if( empty( $pluginFilePath ) || empty( $configFilePath ) )
+        {
+            return false;
+        }
+        $this->pluginOptions = $this->getPluginData( $pluginFilePath, $configFilePath );
+        return $this;
     }
 
     public function set( $optionName, $optionValue = null )
@@ -39,37 +43,7 @@ class PluginOptions
         return false;
     }
 
-    public static function setInstance( string $pluginFilePath, string $configFilePath ) : object | bool
-    {
-        if( empty( $pluginFilePath ) || empty( $configFilePath ) )
-        {
-            return false;
-        }
-        if( ! self::$instance )
-        {
-            $pluginOptions = self::getPluginData( $pluginFilePath, $configFilePath );
-            self::$instance = new PluginOptions( $pluginOptions );
-        }
-        return self::getInstance();
-    }
-
-    public static function getInstance( string $pluginFilePath = null, string $configFilePath = null ) : object | bool
-    {
-        if( self::$instance )
-        {
-            return self::$instance;
-        }
-        else
-        {
-            if( empty( $pluginFilePath ) || empty( $configFilePath ) )
-            {
-                return false;
-            }
-            return self::setInstance( $pluginFilePath, $configFilePath );
-        }
-    }
-
-    private static function getPluginData( $pluginFilePath, $configFilePath ) : array
+    private function getPluginData( $pluginFilePath, $configFilePath ) : array
     {
         $pluginFilePath = str_replace( '\\', '/', $pluginFilePath );
         $configFilePath = str_replace( '\\', '/', $configFilePath );

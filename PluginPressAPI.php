@@ -60,8 +60,8 @@ require_once trailingslashit( dirname( __FILE__ ) ) . 'vendor/autoload.php';
 // triggers when the plugin is activated
 function pluginActivationHook()
 {
-    PluginOptions::setInstance( __FILE__, plugin_dir_path( __FILE__ ) . 'Tests/Configs/PluginOptions.php' );
-    $pluginActivator = new PluginActivator();
+    $pluginOptions = new PluginOptions( __FILE__, plugin_dir_path( __FILE__ ) . 'Configs/PluginOptions.php' );
+    $pluginActivator = new PluginActivator( $pluginOptions );
     $pluginActivator->activate();
 }
 register_activation_hook( __file__, 'IamProgrammerLK\Tests\pluginActivationHook' );
@@ -69,16 +69,17 @@ register_activation_hook( __file__, 'IamProgrammerLK\Tests\pluginActivationHook'
 // triggers when the plugin is deactivated
 function pluginDeactivationHook()
 {
-    PluginOptions::setInstance( __FILE__, plugin_dir_path( __FILE__ ) . 'Tests/Configs/PluginOptions.php' );
-    $pluginActivator = new PluginActivator();
+    $pluginOptions = new PluginOptions( __FILE__, plugin_dir_path( __FILE__ ) . 'Configs/PluginOptions.php' );
+    $pluginActivator = new PluginActivator( $pluginOptions );
     $pluginActivator->deactivate();
 }
 register_deactivation_hook( __FILE__, 'IamProgrammerLK\Tests\pluginDeactivationHook' );
 
 // initiate the plugin
-if( ! class_exists( 'TestPlugin' ) )
+if( ! class_exists( 'Tests' ) )
 {
-    PluginOptions::setInstance( __FILE__, plugin_dir_path( __FILE__ ) . 'Tests/Configs/PluginOptions.php' );
-    $testPlugin = new TestPlugin();
-    $testPlugin->init();
+    $pluginOptions = new PluginOptions( __FILE__, plugin_dir_path( __FILE__ ) . 'Configs/PluginOptions.php' );
+    $tests = new Tests( $pluginOptions );
+    $tests->init();
+    echo '<pre> '; var_dump( $pluginOptions->get( 'namespace' ) ); echo ' </pre>';
 }

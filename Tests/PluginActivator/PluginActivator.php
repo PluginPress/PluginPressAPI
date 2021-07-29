@@ -2,8 +2,6 @@
 
 namespace IamProgrammerLK\Tests\PluginActivator;
 
-use IamProgrammerLK\PluginPressAPI\PluginOptions\PluginOptions;
-
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )
 {
@@ -13,25 +11,21 @@ if( ! defined( 'WPINC' ) )
 class PluginActivator
 {
 
-    private $pluginOptions;
-    private $activationSequence;
-    private $deactivationSequence;
+    protected $pluginOptions;
 
-    public function __construct()
+    public function __construct( object $pluginOptions )
     {
-        $this->pluginOptions = PluginOptions::getInstance();
+        $this->pluginOptions = $pluginOptions;
     }
 
     public function activate()
     {
-        $this->activationSequence = new ActivationSequence();
-        $this->activationSequence->init();
+        ( new ActivationSequence( $this->pluginOptions ) )->init();
     }
 
     public function deactivate()
     {
-        $this->deactivationSequence = new DeactivationSequence();
-        $this->deactivationSequence->init();
+        ( new DeactivationSequence( $this->pluginOptions ) )->init();
     }
 
 }

@@ -32,13 +32,13 @@ return [
     ],
 
     // Displays at the end of the update message container in row of the plugins list table.
-    'update_notice_url' => 'http://plugins.svn.wordpress.org/custom-currency-for-woocommerce/plugin-update-notice.txt',
+    'update_notice_url' => 'http://plugins.svn.wordpress.org/testplugin/trunk/updatenotice.txt',
     // Plugin settings page url
     'settings_url' => 'admin.php?page=test',
     // Plugin help and support url
-    'support_url' => 'https://wordpress.org/support/plugin/custom-currency-for-woocommerce/',
+    'support_url' => 'https://wordpress.org/support/plugin/testplugin/',
     // Plugin feedback url
-    'feedback_url' => 'https://wordpress.org/plugins/custom-currency-for-woocommerce/#reviews',
+    'feedback_url' => 'https://wordpress.org/plugins/testplugin/#reviews',
     // Social profile links
     'social_urls' => [
         [
