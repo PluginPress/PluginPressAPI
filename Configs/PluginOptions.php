@@ -34,7 +34,7 @@ return [
     // Displays at the end of the update message container in row of the plugins list table.
     'update_notice_url' => 'http://plugins.svn.wordpress.org/testplugin/trunk/updatenotice.txt',
     // Plugin settings page url
-    'settings_url' => 'admin.php?page=test',
+    'settings_url' => 'admin.php?page=testplugin_default_option_page',
     // Plugin help and support url
     'support_url' => 'https://wordpress.org/support/plugin/testplugin/',
     // Plugin feedback url
