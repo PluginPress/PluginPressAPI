@@ -1,6 +1,6 @@
 <?php
 
-namespace IamProgrammerLK\Tests;
+namespace IamProgrammerLK\TestPlugin;
 
 // If this file is called directly, abort. for the security purpose.
 if ( ! defined( 'WPINC' ) )
@@ -8,7 +8,7 @@ if ( ! defined( 'WPINC' ) )
     die;
 }
 
-class Tests
+class TestPlugin
 {
 
     protected $pluginOptions;
@@ -20,8 +20,6 @@ class Tests
 
     public function init()
     {
-        echo '<pre> '; var_dump( $this->pluginOptions->get( 'namespace' ) ); echo ' </pre>';
-        $this->pluginOptions->set( 'namespace', 'updated' );
     }
 
 }

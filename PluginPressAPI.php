@@ -2,8 +2,8 @@
 
 /*
 ** @project
-** Project Name:        PluginPress API
-** Project Description: API wrapper classes for building object-oriented WordPress plugins.
+** Project Name:        PluginPressAPI - TestPlugin
+** Project Description: Wrapper classes for building object-oriented WordPress plugins.
 ** Project Version:     1.0.0
 ** File Name:           PluginPressAPI.php
 ** File Description:    This file is read by WordPress to generate the plugin information in the plugin admin area.
@@ -13,14 +13,14 @@
 ** Last Change:         2021-07-27
 **
 ** @wordpress-plugin
-** Plugin Name:         PluginPress API
-** Short Name:          PluginPress API
+** Plugin Name:         PluginPressAPI - TestPlugin
+** Short Name:          PluginPressAPI - TestPlugin
 ** Plugin Slug:         pluginpressapi
-** Plugin Namespace:    IamProgrammerLK\PluginPressAPI
-** Title:               PluginPress API
+** Plugin Namespace:    IamProgrammerLK\TestPlugin
+** Title:               PluginPressAPI - TestPlugin
 ** Plugin URI:          https://iamprogrammerlk.github.io/PluginPressAPI/
 ** Version:             1.0.0
-** Description:         API wrapper classes for building object-oriented WordPress plugins.
+** Description:         Wrapper classes for building object-oriented WordPress plugins.
 ** Text Domain:         pluginpressapi
 ** Domain Path:         /Common/Languages
 ** Network:             
@@ -42,11 +42,11 @@
 ** Since                1.0.0 (2021-07-26)
 */
 
-namespace IamProgrammerLK\Tests;
+namespace IamProgrammerLK\TestPlugin;
 
 use IamProgrammerLK\PluginPressAPI\PluginOptions\PluginOptions;
 
-use IamProgrammerLK\Tests\PluginActivator\PluginActivator;
+use IamProgrammerLK\TestPlugin\PluginActivator\PluginActivator;
 
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )
@@ -76,10 +76,9 @@ function pluginDeactivationHook()
 register_deactivation_hook( __FILE__, 'IamProgrammerLK\Tests\pluginDeactivationHook' );
 
 // initiate the plugin
-if( ! class_exists( 'Tests' ) )
+if( ! class_exists( 'TestPlugin' ) )
 {
     $pluginOptions = new PluginOptions( __FILE__, plugin_dir_path( __FILE__ ) . 'Configs/PluginOptions.php' );
-    $tests = new Tests( $pluginOptions );
-    $tests->init();
-    echo '<pre> '; var_dump( $pluginOptions->get( 'namespace' ) ); echo ' </pre>';
+    $testPlugin = new TestPlugin( $pluginOptions );
+    $testPlugin->init();
 }

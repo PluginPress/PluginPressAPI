@@ -55,7 +55,7 @@
 "autoload-dev": {
   "psr-4": {
     "IamProgrammerLK\\PluginPressAPI\\": "Private",
-    "IamProgrammerLK\\Tests\\": "Tests"
+    "IamProgrammerLK\\TestPlugin\\": "Tests"
   }
 },
 "minimum-stability": "stable",

@@ -1,6 +1,6 @@
 <?php
 
-namespace IamProgrammerLK\Tests\PluginActivator;
+namespace IamProgrammerLK\TestPlugin\PluginActivator;
 
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )
