@@ -2,13 +2,15 @@
 
 namespace IamProgrammerLK\TestPlugin;
 
+use IamProgrammerLK\PluginPressAPI\WordPress\PluginsPageCustomizer;
+
 // If this file is called directly, abort. for the security purpose.
 if ( ! defined( 'WPINC' ) )
 {
     die;
 }
 
-class TestPlugin
+class DoWordPress
 {
 
     protected $pluginOptions;
@@ -20,8 +22,7 @@ class TestPlugin
 
     public function init()
     {
-        ( new DoWordPress( $this->pluginOptions ) )->init();
-        ( new DoAdminPages( $this->pluginOptions ) )->init();
+        ( new PluginsPageCustomizer( $this->pluginOptions ) )->init();
     }
 
 }
