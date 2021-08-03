@@ -85,7 +85,7 @@ class AdminPages extends AdminSettings
     }
 
     // NOTE: @array $args -- single array for the single page and multi-array for the multiple pages
-    public function add_sub_menu_pages( array $args ) : void
+    public function add_submenu_pages( array $args ) : void
     {
         foreach( $args as $key => $value )
         {
@@ -99,6 +99,50 @@ class AdminPages extends AdminSettings
                 array_push( $this->admin_sub_pages, $value );
             }
         }
+    }
+
+    // user will redirected to the welcome page when plugin is activated.
+    // If a plugin is silently activated (such as during an update, multisite, or multiple plugin activation), this does not redirect to the welcome page.
+    public function add_admin_welcome_page( array $args )
+    {
+        $this->add_submenu_pages(
+            [
+                'page_parent_slug'      => 'index.php',
+                'page_title'            => $args[ 'page_title' ],
+                'page_menu_title'       => $args[ 'page_title' ],
+                'page_capabilities'     => 'manage_options',
+                'page_slug'             => 'welcome_page',
+                'page_ui'               => $args[ 'page_ui' ],
+            ]
+        );
+        if( ! isset( $args[ 'page_show_always' ] ) || $args[ 'page_show_always' ] == false )
+        {
+            add_action(
+                'admin_head', 
+                function()
+                {
+                    remove_submenu_page( 'index.php', $this->plugin_options->get( 'plugin_slug' ) . '_welcome_page' );
+                }
+            );
+        }
+        add_action(
+            'admin_init', 
+            function()
+            {
+                if( ! get_transient( $this->plugin_options->get( 'plugin_slug' ) . '_welcome_page_redirect' ) )
+                {
+                    return;
+                }
+
+                delete_transient( $this->plugin_options->get( 'plugin_slug' ) . '_welcome_page_redirect' );
+                if( isset( $_GET[ 'activate-multi' ] ) )
+                {
+                    return;
+                }
+                wp_safe_redirect( admin_url( 'index.php?page=' . $this->plugin_options->get( 'plugin_slug' ) . '_welcome_page' ) );
+                die();
+            }
+        );
     }
 
     public function register_option_pages() : void

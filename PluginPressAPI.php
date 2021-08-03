@@ -46,7 +46,7 @@ namespace IamProgrammerLK\TestPlugin;
 
 use IamProgrammerLK\PluginPressAPI\PluginOptions\PluginOptions;
 
-use IamProgrammerLK\TestPlugin\PluginActivator\PluginActivator;
+use IamProgrammerLK\PluginPressAPI\PluginActivator\PluginActivator;
 
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )
@@ -57,28 +57,11 @@ if( ! defined( 'WPINC' ) )
 // Dynamically include all the classes.
 require_once trailingslashit( dirname( __FILE__ ) ) . 'vendor/autoload.php';
 
-// triggers when the plugin is activated
-function plugin_activation_hook()
-{
-    $plugin_options     = new PluginOptions( __FILE__, plugin_dir_path( __FILE__ ) . 'Configs/PluginOptions.php' );
-    $plugin_activator   = new PluginActivator( $plugin_options );
-    $plugin_activator->activate();
-}
-register_activation_hook( __file__, 'IamProgrammerLK\Tests\plugin_activation_hook' );
-
-// triggers when the plugin is deactivated
-function plugin_deactivation_hook()
-{
-    $plugin_options     = new PluginOptions( __FILE__, plugin_dir_path( __FILE__ ) . 'Configs/PluginOptions.php' );
-    $plugin_activator   = new PluginActivator( $plugin_options );
-    $plugin_activator->deactivate();
-}
-register_deactivation_hook( __FILE__, 'IamProgrammerLK\Tests\plugin_deactivation_hook' );
-
 // initiate the plugin
 if( ! class_exists( 'TestPlugin' ) )
 {
-    // $plugin_options     = new PluginOptions( __FILE__, plugin_dir_path( __FILE__ ) . 'Configs/PluginOptions.php' );
+    // @string - required - absolute path to the primary plugin file (this file).
+    // @string - required - absolute path to the plugin options file.
     $test_plugin = new TestPlugin( __FILE__, plugin_dir_path( __FILE__ ) . 'Configs/PluginOptions.php' );
     $test_plugin->init();
 }

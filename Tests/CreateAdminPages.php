@@ -2,6 +2,7 @@
 
 namespace IamProgrammerLK\TestPlugin;
 
+use IamProgrammerLK\PluginPressAPI\PluginOptions\PluginOptions;
 use IamProgrammerLK\PluginPressAPI\Admin\AdminPages;
 
 // If this file is called directly, abort. for the security purpose.
@@ -15,7 +16,7 @@ class CreateAdminPages
 
     protected $plugin_options;
 
-    public function __construct( object $plugin_options )
+    public function __construct( PluginOptions $plugin_options )
     {
         $this->plugin_options = $plugin_options;
     }
@@ -25,6 +26,7 @@ class CreateAdminPages
         $this->create_option_page();
         $this->create_option_pages();
         $this->create_admin_welcome_page();
+
 
         // add_action('before_header_section', function () {
         //     echo 'before_header_section';
@@ -243,20 +245,17 @@ class CreateAdminPages
         $option_pages->init();
     }
 
+    // user will redirected to the welcome page when plugin is activated.
+    // If a plugin is silently activated (such as during an update, multisite, or multiple plugin activation), this does not redirect to the welcome page.
     private function create_admin_welcome_page()
     {
         $admin_welcome_page = new AdminPages( $this->plugin_options );
-        $admin_welcome_page->add_menu_pages(
+        $admin_welcome_page->add_admin_welcome_page(
             [
-                'page_title'            => 'Welcome Page',
-                'page_menu_title'       => 'Welcome Page',
-                // 'page_description' => 'This is the welcome page description',
-                'page_capabilities'     => 'manage_options',
-                'page_slug'             => 'test_menu_page_01',
-                'page_icon_url'         => 'dashicons-admin-generic',
-                'page_position'         => 50,
-                'page_ui'               => plugin_dir_path( __FILE__ ) . 'Templates/AdminWelcomePageTemplate.php',
-            ]
+                'page_title' => 'Welcome',
+                'page_ui' => plugin_dir_path( __FILE__ ) . 'Templates/AdminWelcomePageTemplate.php',        // valid callback function || absolute path to the template file
+                // 'page_show_always' => true,     // default false
+            ] 
         );
         $admin_welcome_page->init();
     }

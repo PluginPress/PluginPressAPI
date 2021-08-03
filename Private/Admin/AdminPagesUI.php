@@ -16,7 +16,7 @@ trait AdminPagesUI
         $current_page = $this->get_current_page();
         if( isset( $current_page[ 'page_ui_template' ] ) )
         {
-            require_once $current_page[ 'page_ui_template' ];
+            include_once $current_page[ 'page_ui_template' ];
             return;
         }
         $this->render_page_header_section( $current_page );

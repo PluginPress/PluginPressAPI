@@ -20,8 +20,24 @@ class TestPlugin extends PluginPressAPI
 
     public function init()
     {
+        // triggers when the plugin is activated. If a plugin is silently activated (such as during an update), this hook does not fire.
+        add_action( 'activation_hook_' . $this->plugin_options->get( 'plugin_slug' ), [ $this, 'activation_hook'] );
+        // triggers when the plugin is deactivated. If a plugin is silently deactivated (such as during an update), this hook does not fire.
+        add_action( 'deactivation_hook_' . $this->plugin_options->get( 'plugin_slug' ), [ $this, 'deactivation_hook'] );
+        
         ( new CreateAdminPages( $this->plugin_options ) )->init();
+    }
 
+    // triggers when the plugin is activated. If a plugin is silently activated (such as during an update), this hook does not fire.
+    public function activation_hook()
+    {
+        ( new PluginActivationSequence( $this->plugin_options ) )->init();
+    }
+
+    // triggers when the plugin is deactivated. If a plugin is silently deactivated (such as during an update), this hook does not fire.
+    public function deactivation_hook()
+    {
+        ( new PluginDeactivationSequence( $this->plugin_options ) )->init();
     }
 
 }
