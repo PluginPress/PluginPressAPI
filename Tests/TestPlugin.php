@@ -2,26 +2,26 @@
 
 namespace IamProgrammerLK\TestPlugin;
 
+use IamProgrammerLK\PluginPressAPI\PluginPressAPI;
+
 // If this file is called directly, abort. for the security purpose.
-if ( ! defined( 'WPINC' ) )
+if( ! defined( 'WPINC' ) )
 {
     die;
 }
 
-class TestPlugin
+class TestPlugin extends PluginPressAPI
 {
 
-    protected $pluginOptions;
-
-    public function __construct( object $pluginOptions )
+    public function __construct( string $plugin_file_path, string $config_file_path )
     {
-        $this->pluginOptions = $pluginOptions;
+        parent::__construct( $plugin_file_path, $config_file_path );
     }
 
     public function init()
     {
-        ( new DoWordPress( $this->pluginOptions ) )->init();
-        ( new DoAdminPages( $this->pluginOptions ) )->init();
+        ( new CreateAdminPages( $this->plugin_options ) )->init();
+
     }
 
 }

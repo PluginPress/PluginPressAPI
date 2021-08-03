@@ -10,102 +10,102 @@ if( ! defined( 'WPINC' ) )
 
 class PluginOptions
 {
+    
+    private $plugin_options = [];
 
-    private $pluginOptions = [];
-
-    public function __construct( string $pluginFilePath, string $configFilePath )
+    public function __construct( string $plugin_file_path, string $config_file_path )
     {
-        if( empty( $pluginFilePath ) || empty( $configFilePath ) )
+        if( empty( $plugin_file_path ) || empty( $config_file_path ) )
         {
             return false;
         }
-        $this->pluginOptions = $this->getPluginData( $pluginFilePath, $configFilePath );
+        $this->plugin_options = $this->get_plugin_data( $plugin_file_path, $config_file_path );
         return $this;
     }
 
-    public function set( $optionName, $optionValue = null )
+    public function set( $option_name, $option_value = null )
     {
-        $this->pluginOptions[ $optionName ] = $optionValue ;
-        return $this->get( $optionName );
+        $this->plugin_options[ $option_name ] = $option_value ;
+        return $this->get( $option_name );
     }
 
-    public function get( $optionName = null )
+    public function get( $option_name = null )
     {
-        $this->pluginOptions = apply_filters( $this->pluginOptions[ 'slug' ] . '_plugin_options', $this->pluginOptions );
-        if( $optionName == null )
+        $this->plugin_options = apply_filters( $this->plugin_options[ 'plugin_slug' ] . '_plugin_options', $this->plugin_options );
+        if( $option_name == null )
         {
-            return $this->pluginOptions;
+            return $this->plugin_options;
         }
-        if( array_key_exists( $optionName, $this->pluginOptions ) && ( $this->pluginOptions[ $optionName ] != null || $this->pluginOptions[ $optionName ] != '' ) )
+        if( array_key_exists( $option_name, $this->plugin_options ) && ( $this->plugin_options[ $option_name ] != null || $this->plugin_options[ $option_name ] != '' ) )
         {
-            return $this->pluginOptions[ $optionName ];
+            return $this->plugin_options[ $option_name ];
         }
         return false;
     }
 
-    private function getPluginData( $pluginFilePath, $configFilePath ) : array
+    private function get_plugin_data( $plugin_file_path, $config_file_path ) : array
     {
-        $pluginFilePath = str_replace( '\\', '/', $pluginFilePath );
-        $configFilePath = str_replace( '\\', '/', $configFilePath );
-        $dirTree = explode( "/", $pluginFilePath );
-        $pluginFileName = end( $dirTree );
-        array_pop( $dirTree );
-        $pluginDirName = end( $dirTree );
-        $requiredPluginData = [
+        $plugin_file_path = str_replace( '\\', "/", $plugin_file_path );
+        $config_file_path = str_replace( '\\', "/", $config_file_path );
+        $directory_tree = explode( "/", $plugin_file_path );
+        $plugin_file_name = end( $directory_tree );
+        array_pop( $directory_tree );
+        $plugin_dir_name = end( $directory_tree );
+        $required_plugin_data = [
             // Plugin basename. sanitize_key( 'basename' )
-            'plugin_base_name' => $pluginDirName . '/' . $pluginFileName,
+            'plugin_base_name' => $plugin_dir_name . "/" . $plugin_file_name,
             // Plugin directory name
-            'plugin_dir_name' => $pluginDirName,  
+            'plugin_dir_name' => $plugin_dir_name,  
             // Plugin file name
-            'plugin_file_name' => str_replace( '.php', '', $pluginFileName ),
+            'plugin_file_name' => str_replace( '.php', '', $plugin_file_name ),
             // Plugin directory url
-            'plugin_dir_url' => plugin_dir_url( $pluginFilePath ),
+            'plugin_dir_url' => plugin_dir_url( $plugin_file_path ),
             // Plugin directory path
-            'plugin_dir_path' => plugin_dir_path( $pluginFilePath ),
+            'plugin_dir_path' => plugin_dir_path( $plugin_file_path ),
             // Plugin file path
-            'plugin_file_path' => $pluginFilePath,
+            'plugin_file_path' => $plugin_file_path,
             // For plugin version compatibility check 
             'plugin_disabled' => false,
         ];
-        $headerKeys = [
+        $header_keys = [
             // Plugin name.
-            'name' => 'Plugin Name',
+            'plugin_name' => 'Plugin Name',
             // Plugin Short name. Max 20 Char
-            'shortname' => 'Short Name',
+            'plugin_shortname' => 'Short Name',
             // Title of the plugin and link to the plugin's site (if set).
-            'title' => 'Title',
+            'plugin_title' => 'Title',
             // Plugin prefix/slug name. case sensitive and no spaces. Max 20 char
-            'slug' => 'Plugin Slug',
+            'plugin_slug' => 'Plugin Slug',
             // Plugin namespace. sanitize_key( 'namespace' )
-            'namespace' => 'Plugin Namespace',
+            'plugin_namespace' => 'Plugin Namespace',
             // Plugin URL
             'plugin_url' => 'Plugin URI',
             // Current plugin version. update it as you release new versions.
-            'version' => 'Version',
+            'plugin_version' => 'Version',
             // Plugin description
-            'description' => 'Description',
+            'plugin_description' => 'Description',
             // Plugin text domain. Max 20 Char
-            'text_domain' => 'Text Domain',
+            'plugin_text_domain' => 'Text Domain',
             // Plugins relative directory path to .mo files.
-            'text_domain_path' => 'Domain Path',
+            'plugin_text_domain_path' => 'Domain Path',
             // Whether the plugin can only be activated network-wide.
-            'network' => 'Network',
+            'plugin_network' => 'Network',
             // Plugin author name
-            'author_name' => 'Author',
+            'plugin_author_name' => 'Author',
             // Plugin author URL
-            'author_url' => 'Author URI',
+            'plugin_author_url' => 'Author URI',
             // Minimum required version of PHP.
-            'requires_php' => 'Requires PHP',
+            'plugin_requires_php' => 'Requires PHP',
             // Minimum required version of WordPress.
-            'requires_wp' => 'Requires at least',
-            'wp_tested_up_to' => 'WP tested up to',
+            'plugin_requires_wordpress' => 'Requires at least',
+            'plugin_wordpress_tested_up_to' => 'WP tested up to',
             // Minimum required version of WooCommerce.
-            'requires_wc' => 'WC requires at least',
-            'wc_tested_up_to' => 'WC tested up to',
+            'plugin_requires_woocommerce' => 'WC requires at least',
+            'plugin_woocommerce_tested_up_to' => 'WC tested up to',
         ];
-        $pluginMetaData = get_file_data( $pluginFilePath, $headerKeys, 'plugin' );
-        $customPluginOptions = require_once( $configFilePath );
-        return array_merge( $requiredPluginData, $pluginMetaData, $customPluginOptions );
+        $plugin_meta_data = get_file_data( $plugin_file_path, $header_keys, 'plugin' );
+        $custom_plugin_options = require_once( $config_file_path );
+        return array_merge( $required_plugin_data, $plugin_meta_data, $custom_plugin_options );
     }
 
 }

@@ -2,6 +2,8 @@
 
 namespace IamProgrammerLK\PluginPressAPI\Admin;
 
+use IamprogrammerLK\PluginPressAPI\PluginOptions\PluginOptions;
+
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )
 {
@@ -11,120 +13,94 @@ if( ! defined( 'WPINC' ) )
 class AdminSettings
 {
 
-    // TODO:: implement the user input data sanitization function for input fields
-
     use AdminSettingsUI;
 
-    private $pluginOptions;
+    private $plugin_options;
     protected $tabs = [];
     protected $sections = [];
     protected $fields = [];
-
-    public function __construct( object $pluginOptions )
+    
+    public function __construct( PluginOptions $plugin_options )
     {
-        $this->pluginOptions = $pluginOptions;
+        $this->plugin_options = $plugin_options;
     }
-
+    
     public function init()
     {
         if( ! empty( $this->tabs ) )
         {
-            add_action( 'admin_init', array( $this, 'registerTabs' ), 11 );
+            add_action( 'admin_init', array( $this, 'register_tabs' ), 11 );
         }
         if( ! empty( $this->sections ) )
         {
-            add_action( 'admin_init', array( $this, 'registerSections' ), 12 );
+            add_action( 'admin_init', array( $this, 'register_sections' ), 12 );
         }
         if( ! empty( $this->fields ) )
         {
-            add_action( 'admin_init', array( $this, 'registerFields' ), 13 );
+            add_action( 'admin_init', array( $this, 'register_fields' ), 13 );
         }
     }
-
-
-
-
-    // @array $settings - Adds sections and options to register, this will register section and files at once
-    // public function addSettings( array $settings ) : void
-    // {
-    //     $this->addSections( $settings );
-    //     foreach( $settings as $sectionKey => $sectionValue )
-    //     {
-    //         if( isset( $sectionValue[ 'options' ] ) && ! empty( $sectionValue[ 'options' ] ) )
-    //         {
-    //             if( ! is_array( $sectionValue[ 'options' ] ) )
-    //             {
-    //                 return;
-    //             }
-    //             foreach( $sectionValue[ 'options' ] as $key => $value )
-    //             {
-    //                 $sectionValue[ 'options' ][ $key ][ 'parent_page_slug' ] = $sectionValue[ 'parent_page_slug' ];
-    //                 $sectionValue[ 'options' ][ $key ][ 'parent_tab_slug' ] = $sectionValue[ 'parent_tab_slug' ];
-    //                 $sectionValue[ 'options' ][ $key ][ 'parent_section_slug' ] = $sectionValue[ 'section_slug' ] ;
-    //             }
-    //             $this->addFields( $sectionValue[ 'options' ] );
-    //         }
-    //     }
-    // }
-
-
-    // @array $tabs - Adds only tabs to register, this will not register fields or sections
-    public function addTabs( array $tabs ) : void
+    
+    // TODO: Implements the function to add tabs/sections/fields at once.
+    // TODO: implement the user input data sanitization function for input fields
+    
+    // NOTE: @array $tabs - Adds only tabs to register, this will not register fields or sections
+    public function add_tabs( array $tabs ) : void
     {
         foreach( $tabs as $key => $value )
         {
             if( ! is_array( $value ) )
             {
-                $this->addTab( $tabs );
+                $this->add_tab( $tabs );
                 return;
             }
             else
             {
-                $this->addTab( $tabs[ $key ] );
+                $this->add_tab( $tabs[ $key ] );
             }
         }
     }
 
-    // @array $sections - Adds only sections to register, this will not register fields
-    public function addSections( array $sections ) : void
+    // NOTE: @array $sections - Adds only sections to register, this will not register fields
+    public function add_sections( array $sections ) : void
     {
         foreach( $sections as $key => $value )
         {
             if( ! is_array( $value ) )
             {
-                $this->addSection( $sections );
+                $this->add_section( $sections );
                 return;
             }
             else
             {
-                $this->addSection( $sections[ $key ] );
+                $this->add_section( $sections[ $key ] );
             }
         }
     }
 
-    // @array $fields - Adds only fields to register, this will not register sections
-    public function addFields( array $fields ) : void
+    // NOTE: @array $fields - Adds only fields to register, this will not register sections
+    public function add_fields( array $fields ) : void
     {
         foreach( $fields as $key => $value )
         {
             if( ! is_array( $value ) )
             {
-                $this->addField( $fields );
+                $this->add_field( $fields );
                 return;
             }
             else
             {
-                $this->addField( $fields[ $key ] );
+                $this->add_field( $fields[ $key ] );
             }
         }
     }
 
-    public function registerTabs() : void
+    public function register_tabs() : void
     {
-        $this->tabs = apply_filters( $this->pluginOptions->get( 'slug' ) . '_add_tabs', $this->tabs );
+        $this->tabs = apply_filters( $this->plugin_options->get( 'plugin_slug' ) . '_add_tabs', $this->tabs );
     }
 
-    public function registerSections() : void
+    public function register_sections() : void
     {
         foreach( $this->sections as $section )
         {
@@ -132,17 +108,17 @@ class AdminSettings
                 $section[ 'section_slug' ],
                 $section[ 'section_title' ],
                 $section[ 'section_ui' ],
-                $section[ 'parent_page_slug' ]
+                $section[ 'section_parent_page_slug' ]
             );
         }
     }
 
-    public function registerFields() : void
+    public function register_fields() : void
     {
         foreach( $this->fields as $field )
         {
             register_setting(
-                $field[ 'parent_tab_slug' ],
+                $field[ 'option_parent_tab_slug' ],
                 $field[ 'option_slug' ],
                 [
                     'type' => $field[ 'option_data_type' ],
@@ -156,70 +132,70 @@ class AdminSettings
                 $field[ 'option_slug' ],
                 $field[ 'option_title' ],
                 $field[ 'option_ui' ],
-                $field[ 'parent_page_slug' ],
-                $field[ 'parent_section_slug' ],
+                $field[ 'option_parent_page_slug' ],
+                $field[ 'option_parent_section_slug' ],
                 $field
             );
         }
     }
 
-    protected function getTabs( array $currentPage ) : array
+    protected function get_tabs( array $current_page ) : array
     {
-        $pageTabs = [];
+        $page_tabs = [];
         foreach( $this->tabs as $tab )
         {
-            if( $tab[ 'parent_page_slug' ] == $currentPage[ 'menu_slug' ] )
+            if( $tab[ 'tab_parent_page_slug' ] == $current_page[ 'page_slug' ] )
             {
-                array_push( $pageTabs, $tab );
+                array_push( $page_tabs, $tab );
             }
         }
-        return $pageTabs;
+        return $page_tabs;
     }
 
-    protected function getActiveTab( array $pageTabs ) : array | bool
+    protected function get_active_tab( array $page_tabs ) : array | bool
     {
-        $activeTabSlug = ( isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : null );
-        $activeTab;
-        if( $activeTabSlug == null )
+        $active_tab_slug = ( isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : null );
+        $active_tab = [];
+        if( $active_tab_slug == null )
         {
-            foreach( $pageTabs as $tab )
+            foreach( $page_tabs as $tab )
             {
                 if( $tab[ 'tab_default' ] == true )
                 {
-                    $activeTab = $tab;
+                    $active_tab = $tab;
                 }
             }
         }
         else
         {
-            foreach( $pageTabs as $tab )
+            foreach( $page_tabs as $tab )
             {
-                if( $tab[ 'tab_slug' ] == $activeTabSlug )
+                if( $tab[ 'tab_slug' ] == $active_tab_slug )
                 {
-                    $activeTab = $tab;
+                    $active_tab = $tab;
                 }
                 else
                 {
-                    $activeTab = [];
+                    $active_tab = [];
                 }
             }
         }
-        if( empty( $activeTab ) && ! empty( $pageTabs ) )
+        if( empty( $active_tab ) && ! empty( $page_tabs ) )
         {
             // If no default tab is defined, first tab will set as a default tab
-            $activeTab = $pageTabs[ 0 ];
+            $active_tab = $page_tabs[ 0 ];
         }
-        if( empty( $pageTabs ) )
+        if( empty( $page_tabs ) )
         {
-            $activeTab = false;
+            $active_tab = false;
         }
-        return $activeTab;
+        return $active_tab;
     }
 
-    private function addTab( $tab ) : void
+    private function add_tab( $tab ) : void
     {
-        $tab[ 'parent_page_slug' ] = $this->pluginOptions->get( 'slug' ) . '_' . $tab[ 'parent_page_slug' ];
-        $tab[ 'tab_slug' ] = $tab[ 'parent_page_slug' ] . '_' . $tab[ 'tab_slug' ];
+        $tab[ 'tab_parent_page_slug' ] = $this->plugin_options->get( 'plugin_slug' ) . '_' . $tab[ 'tab_parent_page_slug' ];
+        $tab[ 'tab_slug' ] = $tab[ 'tab_parent_page_slug' ] . '_' . $tab[ 'tab_slug' ];
         $tab[ 'tab_title' ] = ( isset( $tab[ 'tab_title' ] ) ) ? $tab[ 'tab_title' ] : '';
         $tab[ 'tab_description' ] = ( isset( $tab[ 'tab_description' ] ) ) ? $tab[ 'tab_description' ] : '';
         $tab[ 'tab_before_icon' ] = ( isset( $tab[ 'tab_before_icon' ] ) ) ? $tab[ 'tab_before_icon' ] : '';
@@ -228,37 +204,37 @@ class AdminSettings
         array_push( $this->tabs, $tab );
     }
 
-    private function addSection( $section ) : void
+    private function add_section( $section ) : void
     {
-        $section[ 'parent_page_slug' ] = $this->pluginOptions->get( 'slug' ) . '_' . $section[ 'parent_page_slug' ];
-        $section[ 'parent_tab_slug' ] = $section[ 'parent_page_slug' ] . '_' . $section[ 'parent_tab_slug' ];
-        $section[ 'section_slug' ] = $this->pluginOptions->get( 'slug' ) . '_' . $section[ 'section_slug' ];
+        $section[ 'section_parent_page_slug' ] = $this->plugin_options->get( 'plugin_slug' ) . '_' . $section[ 'section_parent_page_slug' ];
+        $section[ 'section_parent_tab_slug' ] = $section[ 'section_parent_page_slug' ] . '_' . $section[ 'section_parent_tab_slug' ];
+        $section[ 'section_slug' ] = $section[ 'section_parent_page_slug' ] . '_' . $section[ 'section_slug' ];
         $section[ 'section_title' ] = ( isset( $section[ 'section_title' ] ) ) ? $section[ 'section_title' ] : '';
         $section[ 'section_description' ] = ( isset( $section[ 'section_description' ] ) ) ? $section[ 'section_description' ] : '';
-        $section[ 'section_ui' ] = ( isset( $section[ 'section_ui' ] ) ) ? $section[ 'section_ui' ] : [ $this, 'renderSections' ];
+        $section[ 'section_ui' ] = ( isset( $section[ 'section_ui' ] ) ) ? $section[ 'section_ui' ] : [ $this, 'render_sections' ];
         array_push( $this->sections, $section );
     }
 
-    private function addField( $field ) : void
+    private function add_field( $field ) : void
     {
-        $field[ 'parent_page_slug' ] = $this->pluginOptions->get( 'slug' ) . '_' . $field[ 'parent_page_slug' ];
-        if( ! isset( $field[ 'parent_tab_slug' ] ) || empty( $field[ 'parent_tab_slug' ] ) )
+        $field[ 'option_parent_page_slug' ] = $this->plugin_options->get( 'plugin_slug' ) . '_' . $field[ 'option_parent_page_slug' ];
+        if( ! isset( $field[ 'option_parent_tab_slug' ] ) || empty( $field[ 'option_parent_tab_slug' ] ) )
         {
-            $field[ 'parent_tab_slug' ] = 'default';
+            $field[ 'option_parent_tab_slug' ] = 'default';
         }
         else
         {
-            $field[ 'parent_tab_slug' ] = $this->pluginOptions->get( 'slug' ) . '_' . $field[ 'parent_tab_slug' ];
+            $field[ 'option_parent_tab_slug' ] = $field[ 'option_parent_page_slug' ] . '_' . $field[ 'option_parent_tab_slug' ];
         }
-        if( ! isset( $field[ 'parent_section_slug' ] ) || empty( $field[ 'parent_section_slug' ] ) )
+        if( ! isset( $field[ 'option_parent_section_slug' ] ) || empty( $field[ 'option_parent_section_slug' ] ) )
         {
-            $field[ 'parent_section_slug' ] = 'default';
+            $field[ 'option_parent_section_slug' ] = 'default';
         }
         else
         {
-            $field[ 'parent_section_slug' ] = $this->pluginOptions->get( 'slug' ) . '_' . $field[ 'parent_section_slug' ];
+            $field[ 'option_parent_section_slug' ] = $field[ 'option_parent_page_slug' ] . '_' . $field[ 'option_parent_section_slug' ];
         }
-        $field[ 'option_slug' ] = $this->pluginOptions->get( 'slug' ) . '_' . $field[ 'option_slug' ];
+        $field[ 'option_slug' ] = $field[ 'option_parent_page_slug' ] . '_' . $field[ 'option_slug' ];
         if( ! isset( $field[ 'option_data_type' ] ) || empty( $field[ 'option_data_type' ] ) )
         {
             $field[ 'option_data_type' ] = 'string';
@@ -269,7 +245,7 @@ class AdminSettings
         }
         if( ! isset( $field[ 'option_sanitize_callback' ] ) || empty( $field[ 'option_sanitize_callback' ] ) )
         {
-            // TODO:: implement the sanitized data function
+            // TODO: implement the sanitized data function
             $field[ 'option_sanitize_callback' ] = NULL;
         }
         if( ! isset( $field[ 'option_show_in_rest' ] ) || empty( $field[ 'option_show_in_rest' ] ) )
@@ -282,7 +258,7 @@ class AdminSettings
         }
         if( ! isset( $field[ 'option_ui' ] ) || empty( $field[ 'option_ui' ] ) )
         {
-            $field[ 'option_ui' ] = [ $this, 'renderFields' ];
+            $field[ 'option_ui' ] = [ $this, 'render_fields' ];
         }
         if( ! isset( $field[ 'option_class' ] ) || empty( $field[ 'option_class' ] ) )
         {

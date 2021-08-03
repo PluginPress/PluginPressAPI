@@ -2,6 +2,7 @@
 
 namespace IamProgrammerLK\PluginPressAPI\Admin;
 
+use IamprogrammerLK\PluginPressAPI\PluginOptions\PluginOptions;
 
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )
@@ -9,21 +10,21 @@ if( ! defined( 'WPINC' ) )
     die;
 }
 
-class AdminPages extends AdminSettings 
+class AdminPages extends AdminSettings
 {
 
     use AdminPagesUI;
 
-    private $pluginOptions;
-    private $optionPages = [];
-    private $adminPages = [];
-    private $adminSubPages = [];
-    private $registeredPages = [];
+    private $plugin_options;
+    private $option_pages = [];
+    private $admin_pages = [];
+    private $admin_sub_pages = [];
+    private $registered_pages = [];
 
-    public function __construct( object $pluginOptions )
+    public function __construct( PluginOptions $plugin_options )
     {
-        $this->pluginOptions = $pluginOptions;
-        parent::__construct( $pluginOptions );
+        $this->plugin_options = $plugin_options;
+        parent::__construct( $plugin_options );
     }
 
     public function init()
@@ -32,211 +33,224 @@ class AdminPages extends AdminSettings
         // if ( !empty( $this->enqueues ) )
         // 	add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 
-        if( ! empty( $this->optionPages) )
+        if( ! empty( $this->option_pages) )
         {
-            add_action( 'admin_menu', array( $this, 'registerOptionPages' ), 20 );
+            add_action( 'admin_menu', array( $this, 'register_option_pages' ), 20 );
         }
-        if( ! empty( $this->adminPages ) )
+        if( ! empty( $this->admin_pages ) )
         {
-            add_action( 'admin_menu', array( $this, 'registerMenuPages' ), 30 );
+            add_action( 'admin_menu', array( $this, 'register_menu_pages' ), 30 );
         }
-        if( ! empty( $this->adminSubPages ) )
+        if( ! empty( $this->admin_sub_pages ) )
         {
-            add_action( 'admin_menu', array( $this, 'registerSubMenuPages' ), 40 );
+            add_action( 'admin_menu', array( $this, 'register_submenu_pages' ), 40 );
         }
         parent::init();
     }
 
-    // public function addPages( $pageType, $args ) : void
-    // {
-    //     switch( $pageType )
-    //     {
-    //         case 'options_page':
-    //             $this->addOptionPages( $args );
-    //             break;
-    //         case 'menu_page':
-    //             $this->addMenuPages( $args );
-    //             break;
-    //         case 'submenu_page':
-    //             $this->addSubMenuPages( $args );
-    //             break;
-    //         default:
-    //             $this->addOptionPages( $args );
-    //     }
-    // }
+    // TODO: Implements the function to add page/tabs/sections/fields at once.
 
-    // @array $args -- single array for the single page and multi-array for the multiple pages
-    public function addOptionPages( array $args ) : void
+    // NOTE: @array $args -- single array for the single page and multi-array for the multiple pages
+    public function add_option_pages( array $args ) : void
     {
         foreach( $args as $key => $value )
         {
             if( ! is_array( $value ) )
             {
-                array_push( $this->optionPages, $args );
+                array_push( $this->option_pages, $args );
                 return;
             }
             else
             {
-                array_push( $this->optionPages, $value );
+                array_push( $this->option_pages, $value );
             }
         }
     }
 
-    // @array $args -- single array for the single page and multi-array for the multiple pages
-    public function addMenuPages( array $args ) : void
+    // NOTE: @array $args -- single array for the single page and multi-array for the multiple pages
+    public function add_menu_pages( array $args ) : void
     {
         foreach( $args as $key => $value )
         {
             if( ! is_array( $value ) )
             {
-                array_push( $this->adminPages, $args );
+                array_push( $this->admin_pages, $args );
                 return;
             }
             else
             {
-                array_push( $this->adminPages, $value );
+                array_push( $this->admin_pages, $value );
             }
         }
     }
 
-    // @array $args -- single array for the single page and multi-array for the multiple pages
-    public function addSubMenuPages( array $args ) : void
+    // NOTE: @array $args -- single array for the single page and multi-array for the multiple pages
+    public function add_sub_menu_pages( array $args ) : void
     {
         foreach( $args as $key => $value )
         {
             if( ! is_array( $value ) )
             {
-                array_push( $this->adminSubPages, $args );
+                array_push( $this->admin_sub_pages, $args );
                 return;
             }
             else
             {
-                array_push( $this->adminSubPages, $value );
+                array_push( $this->admin_sub_pages, $value );
             }
         }
     }
 
-    public function registerOptionPages() : void
+    public function register_option_pages() : void
     {
-        foreach( $this->optionPages as $page )
+        foreach( $this->option_pages as $page )
         {
-            $page[ 'menu_slug' ] = $this->pluginOptions->get( 'slug' ) . '_' . $page[ 'menu_slug' ];
-            if( ! isset( $page[ 'render_page_ui' ] ) )
+            $page[ 'page_slug' ] = $this->plugin_options->get( 'plugin_slug' ) . '_' . $page[ 'page_slug' ];
+            if( isset( $page[ 'page_ui' ] ) )
             {
-                $page[ 'render_page_ui' ] = [ $this, 'renderAdminPageUI' ];
+                if( ! is_array( $page[ 'page_ui' ] ) )
+                {
+                    if( is_file( $page[ 'page_ui' ] ) )
+                    {
+                        $page[ 'page_ui_template' ] = $page[ 'page_ui' ];
+                    }
+                    $page[ 'page_ui' ] = [ $this, 'render_admin_page_ui' ];
+                }
             }
-            if( ! isset( $page[ 'position' ] ) )
+            else
             {
-                $page[ 'position' ] = 10;
+                $page[ 'page_ui' ] = [ $this, 'render_admin_page_ui' ];
+            }
+            if( ! isset( $page[ 'page_position' ] ) )
+            {
+                $page[ 'page_position' ] = 10;
             }
             $page[ 'page_hook_suffix' ] = add_options_page(
                 $page[ 'page_title' ],
-                $page[ 'menu_title' ],
-                $page[ 'capabilities' ],
-                $page[ 'menu_slug' ],
-                $page[ 'render_page_ui' ],
-                $page[ 'position' ]
+                $page[ 'page_menu_title' ],
+                $page[ 'page_capabilities' ],
+                $page[ 'page_slug' ],
+                $page[ 'page_ui' ],
+                $page[ 'page_position' ]
             );
             $page[ 'page_type' ] = 'options_page';
-            $this->updateRegisteredPages( $page );
+            $this->update_registered_pages( $page );
         }
     }
 
-    public function registerMenuPages() : void
+    public function register_menu_pages() : void
     {
-        foreach( $this->adminPages as $page )
+        foreach( $this->admin_pages as $page )
         {
-            $page[ 'menu_slug' ] = $this->pluginOptions->get( 'slug' ) . '_' . $page[ 'menu_slug' ];
-            if( ! isset( $page[ 'render_page_ui' ] ) )
+            $page[ 'page_slug' ] = $this->plugin_options->get( 'plugin_slug' ) . '_' . $page[ 'page_slug' ];
+            if( isset( $page[ 'page_ui' ] ) )
             {
-                $page[ 'render_page_ui' ] = [ $this, 'renderAdminPageUI' ];
+                if( ! is_array( $page[ 'page_ui' ] ) )
+                {
+                    if( is_file( $page[ 'page_ui' ] ) )
+                    {
+                        $page[ 'page_ui_template' ] = $page[ 'page_ui' ];
+                    }
+                    $page[ 'page_ui' ] = [ $this, 'render_admin_page_ui' ];
+                }
             }
-            if( ! isset( $page[ 'icon_url' ] ) )
+            else
             {
-                $page[ 'icon_url' ] = 'dashicons-admin-generic';
+                $page[ 'page_ui' ] = [ $this, 'render_admin_page_ui' ];
             }
-            if( ! isset( $page[ 'position' ] ) )
+            if( ! isset( $page[ 'page_icon_url' ] ) )
             {
-                $page[ 'position' ] = 10;
+                $page[ 'page_icon_url' ] = 'dashicons-admin-generic';
+            }
+            if( ! isset( $page[ 'page_position' ] ) )
+            {
+                $page[ 'page_position' ] = 10;
             }
             $page[ 'page_hook_suffix' ] = add_menu_page(
                 $page[ 'page_title' ],
-                $page[ 'menu_title' ],
-                $page[ 'capabilities' ],
-                $page[ 'menu_slug' ],
-                $page[ 'render_page_ui' ],
-                $page[ 'icon_url' ],
-                $page[ 'position' ]
+                $page[ 'page_menu_title' ],
+                $page[ 'page_capabilities' ],
+                $page[ 'page_slug' ],
+                $page[ 'page_ui' ],
+                $page[ 'page_icon_url' ],
+                $page[ 'page_position' ]
             );
             $page[ 'page_type' ] = 'menu_page';
-            $this->updateRegisteredPages( $page );
+            $this->update_registered_pages( $page );
         }
     }
 
-    public function registerSubMenuPages() : void
+    public function register_submenu_pages() : void
     {
-        foreach( $this->adminSubPages as $page )
+        foreach( $this->admin_sub_pages as $page )
         {
-            if( ! str_ends_with( $page[ 'parent_page' ], '.php' ) )
+            if( ! str_ends_with( $page[ 'page_parent_slug' ], '.php' ) )
             {
-                $page[ 'parent_page' ] = $this->pluginOptions->get( 'slug' ) . '_' . $page[ 'parent_page' ];
+                $page[ 'page_parent_slug' ] = $this->plugin_options->get( 'plugin_slug' ) . '_' . $page[ 'page_parent_slug' ];
             }
-            $page[ 'menu_slug' ] = $this->pluginOptions->get( 'slug' ) . '_' . $page[ 'menu_slug' ];
-            if( ! isset( $page[ 'render_page_ui' ] ) )
+            $page[ 'page_slug' ] = $this->plugin_options->get( 'plugin_slug' ) . '_' . $page[ 'page_slug' ];
+            if( isset( $page[ 'page_ui' ] ) )
             {
-                $page[ 'render_page_ui' ] = [ $this, 'renderAdminPageUI' ];
+                if( ! is_array( $page[ 'page_ui' ] ) )
+                {
+                    if( is_file( $page[ 'page_ui' ] ) )
+                    {
+                        $page[ 'page_ui_template' ] = $page[ 'page_ui' ];
+                    }
+                    $page[ 'page_ui' ] = [ $this, 'render_admin_page_ui' ];
+                }
             }
-            if( ! isset( $page[ 'position' ] ) )
+            else
             {
-                $page[ 'position' ] = 10;
+                $page[ 'page_ui' ] = [ $this, 'render_admin_page_ui' ];
+            }
+            if( ! isset( $page[ 'page_position' ] ) )
+            {
+                $page[ 'page_position' ] = 10;
             }
             $page[ 'page_hook_suffix' ] = add_submenu_page(
-                $page[ 'parent_page' ],
+                $page[ 'page_parent_slug' ],
                 $page[ 'page_title' ],
-                $page[ 'menu_title' ],
-                $page[ 'capabilities' ],
-                $page[ 'menu_slug' ],
-                $page[ 'render_page_ui' ],
-                $page[ 'position' ]
+                $page[ 'page_menu_title' ],
+                $page[ 'page_capabilities' ],
+                $page[ 'page_slug' ],
+                $page[ 'page_ui' ],
+                $page[ 'page_position' ]
             );
             $page[ 'page_type' ] = 'submenu_page';
-            $this->updateRegisteredPages( $page );
+            $this->update_registered_pages( $page );
         }
     }
 
-    protected function getRegisteredPages() : array
+    protected function get_registered_pages() : array
     {
-        return $this->registeredPages;
+        return $this->registered_pages;
     }
 
-    protected function getCurrentPage() : array
+    protected function get_current_page() : array
     {
-        $currentScreen = get_current_screen();
-        foreach( $this->getRegisteredPages() as $page )
+        $current_screen = get_current_screen();
+        foreach( $this->get_registered_pages() as $page )
         {
-            if( isset( $page[ 'page_hook_suffix' ] ) && $page[ 'page_hook_suffix' ] != false && $page[ 'page_hook_suffix' ] == $currentScreen->id )
+            if( isset( $page[ 'page_hook_suffix' ] ) && $page[ 'page_hook_suffix' ] != false && $page[ 'page_hook_suffix' ] == $current_screen->id )
             {
                 return $page;
             }
         }
     }
 
-    private function updateRegisteredPages( $page ) : void
+    private function update_registered_pages( $page ) : void
     {
         if( $page[ 'page_hook_suffix' ] == false )
         {
-            // NOTE:The user does not have the capability required to create a page.
+            // The user does not have the capability required to create a page.
             return;
         }
-        if( isset( $page[ 'render_page_ui' ] ) )
-        {
-            unset( $page[ 'render_page_ui' ] );
-        }
-        array_push( $this->registeredPages, $page );
-        $this->enqueueOnPage( $page );
+        array_push( $this->registered_pages, $page );
+        $this->enqueue_on_page( $page );
     }
 
-    private function enqueueOnPage( $page ) : void
+    private function enqueue_on_page( $page ) : void
     {
         // Prints in head section for a specific admin page.
         if( isset( $page[ 'enqueue_on_page_head' ] ) && ! empty( $page[ 'enqueue_on_page_head' ] ) && is_array( $page[ 'enqueue_on_page_head' ] ) )
