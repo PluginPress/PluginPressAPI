@@ -31,7 +31,8 @@ class PluginOptions
 
     public function get( $option_name = null )
     {
-        $this->plugin_options = apply_filters( $this->plugin_options[ 'plugin_slug' ] . '_plugin_options', $this->plugin_options );
+         // HOOK: Filter - plugin_options_{PLUGIN_SLUG}
+        $this->plugin_options = apply_filters( 'plugin_options_' . $this->plugin_options[ 'plugin_slug' ], $this->plugin_options );
         if( $option_name == null )
         {
             return $this->plugin_options;

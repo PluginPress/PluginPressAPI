@@ -31,11 +31,13 @@ class PluginActivator
     public function do_activation_hook()
     {
         set_transient( $this->plugin_options->get( 'plugin_slug' ) . '_welcome_page_redirect', true, 30 );
+        // HOOK: Action - activation_hook_{PLUGIN_SLUG}
         do_action( 'activation_hook_' . $this->plugin_options->get( 'plugin_slug' ) );
     }
 
     public function do_deactivation_hook()
     {
+         // HOOK: Action - deactivation_hook_{PLUGIN_SLUG}
         do_action( 'deactivation_hook_' . $this->plugin_options->get( 'plugin_slug' ) );
     }
 
