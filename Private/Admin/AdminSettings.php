@@ -97,7 +97,8 @@ class AdminSettings
 
     public function register_tabs() : void
     {
-        $this->tabs = apply_filters( $this->plugin_options->get( 'plugin_slug' ) . '_add_tabs', $this->tabs );
+        // HOOK: Filter before_register_tabs_{PLUGIN_SLUG}
+        $this->tabs = apply_filters( 'before_register_tabs_' . $this->plugin_options->get( 'plugin_slug' ), $this->tabs );
     }
 
     public function register_sections() : void
@@ -139,7 +140,7 @@ class AdminSettings
         }
     }
 
-    protected function get_tabs( array $current_page ) : array
+    protected function get_current_page_tabs( array $current_page ) : array
     {
         $page_tabs = [];
         foreach( $this->tabs as $tab )
@@ -156,14 +157,23 @@ class AdminSettings
     {
         $active_tab_slug = ( isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : null );
         $active_tab = [];
+        if( empty( $page_tabs ) )
+        {
+            return false;
+        }
         if( $active_tab_slug == null )
         {
             foreach( $page_tabs as $tab )
             {
-                if( $tab[ 'tab_default' ] == true )
+                if( isset( $tab[ 'tab_default' ] ) && $tab[ 'tab_default' ] == true )
                 {
                     $active_tab = $tab;
                 }
+            }
+            if( empty( $active_tab ) )
+            {
+                // If no default tab is defined, first tab will set as a default tab
+                $active_tab = $page_tabs [ 0 ];
             }
         }
         else
@@ -174,20 +184,7 @@ class AdminSettings
                 {
                     $active_tab = $tab;
                 }
-                else
-                {
-                    $active_tab = [];
-                }
             }
-        }
-        if( empty( $active_tab ) && ! empty( $page_tabs ) )
-        {
-            // If no default tab is defined, first tab will set as a default tab
-            $active_tab = $page_tabs[ 0 ];
-        }
-        if( empty( $page_tabs ) )
-        {
-            $active_tab = false;
         }
         return $active_tab;
     }
@@ -198,7 +195,9 @@ class AdminSettings
         $tab[ 'tab_slug' ] = $tab[ 'tab_parent_page_slug' ] . '_' . $tab[ 'tab_slug' ];
         $tab[ 'tab_title' ] = ( isset( $tab[ 'tab_title' ] ) ) ? $tab[ 'tab_title' ] : '';
         $tab[ 'tab_description' ] = ( isset( $tab[ 'tab_description' ] ) ) ? $tab[ 'tab_description' ] : '';
-        $tab[ 'tab_before_icon' ] = ( isset( $tab[ 'tab_before_icon' ] ) ) ? $tab[ 'tab_before_icon' ] : '';
+        $tab[ 'tab_before_icon_style' ] = ( isset( $tab[ 'tab_before_icon_style' ] ) ) ? $tab[ 'tab_before_icon_style' ] : '';
+        $tab[ 'tab_before_icon' ] = ( isset( $tab[ 'tab_before_icon' ] ) ) ? $tab[ 'tab_before_icon' ] : 'dashicons dashicons-screenoptions';
+        $tab[ 'tab_after_icon_style' ] = ( isset( $tab[ 'tab_after_icon_style' ] ) ) ? $tab[ 'tab_after_icon_style' ] : '';
         $tab[ 'tab_after_icon' ] = ( isset( $tab[ 'tab_after_icon' ] ) ) ? $tab[ 'tab_after_icon' ] : '';
         $tab[ 'tab_default' ] = ( isset( $tab[ 'tab_default' ] ) ) ? $tab[ 'tab_default' ] : false;
         array_push( $this->tabs, $tab );
@@ -211,7 +210,7 @@ class AdminSettings
         $section[ 'section_slug' ] = $section[ 'section_parent_page_slug' ] . '_' . $section[ 'section_slug' ];
         $section[ 'section_title' ] = ( isset( $section[ 'section_title' ] ) ) ? $section[ 'section_title' ] : '';
         $section[ 'section_description' ] = ( isset( $section[ 'section_description' ] ) ) ? $section[ 'section_description' ] : '';
-        $section[ 'section_ui' ] = ( isset( $section[ 'section_ui' ] ) ) ? $section[ 'section_ui' ] : [ $this, 'render_sections' ];
+        $section[ 'section_ui' ] = ( isset( $section[ 'section_ui' ] ) ) ? $section[ 'section_ui' ] : null;
         array_push( $this->sections, $section );
     }
 

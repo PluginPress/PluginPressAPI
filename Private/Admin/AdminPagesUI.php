@@ -22,8 +22,11 @@ trait AdminPagesUI
         $this->render_page_header_section( $current_page );
         if( ! empty( $this->tabs ) )
         {
-            $page_tabs = $this->get_tabs( $current_page );
+            $page_tabs = $this->get_current_page_tabs( $current_page );
             $active_tab = $this->get_active_tab( $page_tabs );
+            
+            // echo '<pre> '; print_r( $page_tabs ); echo ' </pre>'; die();
+
             if( $active_tab )
             {
                 $this->render_tabs( $page_tabs );
@@ -46,12 +49,12 @@ trait AdminPagesUI
     {
         echo '<div class="wrap">';
         echo '<p>';
-        // HOOK: Action - All Admin page before_header_section_{PLUGIN_SLUG}
-        do_action( 'before_admin_header_section_' . $this->plugin_options->get( 'plugin_slug' ) );
+        // HOOK: Action - before_admin_page_header_section_{PLUGIN_SLUG} - All Admin page
+        do_action( 'before_admin_page_header_section_' . $this->plugin_options->get( 'plugin_slug' ) );
         echo '</p>';
         echo '<p>';
-        // HOOK: Action - Admin page before_header_section_{PAGE_SLUG}
-        do_action( 'before_admin_header_section_' . $current_page[ 'page_slug' ] );
+        // HOOK: Action - before_admin_page_header_section_{PAGE_SLUG} -  Admin page
+        do_action( 'before_admin_page_header_section_' . $current_page[ 'page_slug' ] );
         echo '</p>';
 
         // TODO: Implement the icon section
@@ -62,24 +65,24 @@ trait AdminPagesUI
             echo '<p>' . $current_page[ 'page_description' ] . '</p>';
         }
         echo '<p>';
-        // HOOK: Action - All Admin page after_header_section_{PLUGIN_SLUG}
-        do_action( 'after_admin_header_section_' . $this->plugin_options->get( 'plugin_slug' ) );
+        // HOOK: Action - after_admin_page_header_section_{PLUGIN_SLUG} - All Admin page
+        do_action( 'after_admin_page_header_section_' . $this->plugin_options->get( 'plugin_slug' ) );
         echo '</p>';
         echo '<p>';
-        // HOOK: Action - Admin page after_header_section_{PAGE_SLUG}
-        do_action( 'after_admin_header_section_' . $current_page[ 'page_slug' ] );
+        // HOOK: Action - after_admin_page_header_section_{PAGE_SLUG} - Admin page
+        do_action( 'after_admin_page_header_section_' . $current_page[ 'page_slug' ] );
         echo '</p>';
     }
 
     public function render_page_footer_section( $current_page ) : void
     {
         echo '<p>';
-        // HOOK: Action - All Admin page before_footer_section_{PLUGIN_SLUG}
-        do_action( 'before_admin_footer_section_' . $this->plugin_options->get( 'plugin_slug' ) );
+        // HOOK: Action - before_admin_page_footer_section_{PLUGIN_SLUG} - All Admin page 
+        do_action( 'before_admin_page_footer_section_' . $this->plugin_options->get( 'plugin_slug' ) );
         echo '</p>';
         echo '<p>';
-        // HOOK: Action - Admin page before_footer_section_{PAGE_SLUG}
-        do_action( 'before_admin_footer_section_' . $current_page[ 'page_slug' ] );
+        // HOOK: Action - before_admin_page_footer_section_{PAGE_SLUG} - Admin page 
+        do_action( 'before_admin_page_footer_section_' . $current_page[ 'page_slug' ] );
         echo '</p>';
         if( isset( $current_page[ 'page_footer' ] ) && ( $current_page[ 'page_footer' ] != null || $current_page[ 'page_footer' ] != '' ) )
         {
@@ -94,12 +97,12 @@ trait AdminPagesUI
                 '<span class="dashicons-before dashicons-star-half"></a></i></p>';
         }
         echo '<p>';
-        // HOOK: Action - All Admin page after_footer_section_{PLUGIN_SLUG}
-        do_action( 'after_admin_footer_section_' . $this->plugin_options->get( 'plugin_slug' ) );
+        // HOOK: Action - after_admin_page_footer_section_{PLUGIN_SLUG} - All Admin page 
+        do_action( 'after_admin_page_footer_section_' . $this->plugin_options->get( 'plugin_slug' ) );
         echo '</p>';
         echo '<p>';
-        // HOOK: Action - Admin page after_footer_section_{PAGE_SLUG}
-        do_action( 'after_admin_footer_section_' . $current_page[ 'page_slug' ] );
+        // HOOK: Action - after_admin_page_footer_section_{PAGE_SLUG} - Admin page 
+        do_action( 'after_admin_page_footer_section_' . $current_page[ 'page_slug' ] );
         echo '</p>';
         echo '</div>';
     }

@@ -142,10 +142,10 @@ class CreateAdminPages
                     // 'tab_default' => true,
                 ],
                 [
-                    'tab_parent_page_slug' => 'test_options_page_03',
-                    'tab_slug'         => 'test_tab_01',
-                    'tab_title'        => 'Page 03 Test Tab 01',
-                    'tab_description'  => 'Test Tab description 01',
+                    'tab_parent_page_slug' => 'test_options_page_02',
+                    'tab_slug'         => 'test_tab_03',
+                    'tab_title'        => 'Page 02 Test Tab 03',
+                    'tab_description'  => 'Test Tab description 03',
                     // 'tab_before_icon' => 'dashicons dashicons-admin-generic',
                     // 'tab_after_icon' => 'dashicons dashicons-admin-generic',
                     // 'tab_default' => true,
@@ -171,20 +171,23 @@ class CreateAdminPages
                     'section_slug'        => 'test_section_01',
                     'section_title'       => 'Test Section Title 01',
                     'section_description' => 'This is the description for the test section 01',
+                    // 'section_ui'        => [ $this, 'render' ],
+                ],
+                [
+                    'section_parent_page_slug'    => 'test_options_page_02',
+                    'section_parent_tab_slug'     => 'test_tab_01',
+                    'section_slug'        => 'test_section_02',
+                    'section_title'       => 'Test Section Title 02',
+                    'section_description' => 'This is the description for the test section 02',
+                    // 'section_ui'        => [ $this, 'render' ],
                 ],
                 [
                     'section_parent_page_slug'    => 'test_options_page_02',
                     'section_parent_tab_slug'     => 'test_tab_02',
-                    'section_slug'        => 'test_section_02',
-                    'section_title'       => 'Test Section Title 02',
-                    'section_description' => 'This is the description for the test section 02',
-                ],
-                [
-                    'section_parent_page_slug'    => 'test_options_page_03',
-                    'section_parent_tab_slug'     => 'test_tab_02',
                     'section_slug'        => 'test_section_03',
                     'section_title'       => 'Test Section Title 03',
                     'section_description' => 'This is the description for the test section 03',
+                    // 'section_ui'        => [ $this, 'render' ],
                 ],
                 // more sections
 
@@ -207,22 +210,25 @@ class CreateAdminPages
                     // 'option_ui' => '',
                     // 'option_class' => 'test-css-class',
                     // 'option_placeholder' => 'Test option placeholder',
+                    'option_help_icon' => 'dashicons dashicons-editor-help',
+                    'option_help_icon_style' => 'Test option placeholder',
                 ],
                 [
                     'option_parent_page_slug' => 'test_options_page_02', // Required
-                    'option_parent_tab_slug' => 'test_tab_02', // Optional
+                    'option_parent_tab_slug' => 'test_tab_01', // Optional
                     'option_parent_section_slug' => 'test_section_02', // Optional
                     'option_slug' => 'test_option_02', // Required
-                    'option_title' => 'Test Option 02', // Required
+                    'option_title' => 'Test Option 02 Test Option 02 Test Option 02', // Required
                     'option_data_type' => 'string', // Optional
                     'option_type' => 'text', // Optional
-                    // 'option_default_value' => false,                                            // Optional
+                    // 'option_default_value' => true,                                            // Optional
                     'option_description' => 'This is the description for the test option 02', // Optional
                     // 'option_sanitize_callback' => '',                                           // Optional
                     // 'option_show_in_rest' => false,                                             // Optional
                     // 'option_ui' => '',                                                          // Optional
                     // 'option_class' => 'test-css-class',                                         // Optional
                     // 'option_placeholder' => 'Test option placeholder',                          // Optional
+                    'option_help_icon' => 'dashicons dashicons-admin-generic',
                 ],
                 [
                     'option_parent_page_slug' => 'test_options_page_03', // Required
@@ -239,6 +245,7 @@ class CreateAdminPages
                     // 'option_ui' => '',                                                          // Optional
                     // 'option_class' => 'test-css-class',                                         // Optional
                     // 'option_placeholder' => 'Test option placeholder',                          // Optional
+                    'option_help_icon' => 'dashicons dashicons-admin-generic',
                 ],
             ]
         );
@@ -258,6 +265,28 @@ class CreateAdminPages
             ] 
         );
         $admin_welcome_page->init();
+        add_filter(
+            'before_tab_render_' . $this->plugin_options->get( 'plugin_slug' ) . '_test_options_page_02_test_tab_01',
+            function( $tab )
+            {
+                $tab['tab_after_icon'] = 'dashicons dashicons-warning';
+                $tab['tab_after_icon_style'] = 'color:red;';
+                return $tab;
+            }
+        );
+        add_filter(
+            'before_section_render_' . $this->plugin_options->get( 'plugin_slug' ) . '_test_options_page_02_test_section_01',
+            function( $section )
+            {
+                $section['section_before_icon'] = 'dashicons dashicons-book';
+                $section['section_before_icon_style'] = 'color:gray;';
+                $section['section_after_icon'] = 'dashicons dashicons-warning';
+                $section['section_after_icon_style'] = 'color:red;';
+                return $section;
+            }
+        );
+
+
     }
 
 }

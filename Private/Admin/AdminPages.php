@@ -16,7 +16,8 @@ class AdminPages extends AdminSettings
     use AdminPagesUI;
 
     private $plugin_options;
-    private $option_pages = [];
+    private $admin_enqueue_scripts = [];
+    private $admin_option_pages = [];
     private $admin_pages = [];
     private $admin_sub_pages = [];
     private $registered_pages = [];
@@ -30,10 +31,11 @@ class AdminPages extends AdminSettings
     public function init()
     {
 
-        // if ( !empty( $this->enqueues ) )
-        // 	add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-
-        if( ! empty( $this->option_pages) )
+        if ( empty( $this->admin_enqueue_scripts ) )
+        {
+            add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_enqueue_scripts' ) );
+        }
+        if( ! empty( $this->admin_option_pages) )
         {
             add_action( 'admin_menu', array( $this, 'register_option_pages' ), 20 );
         }
@@ -50,6 +52,7 @@ class AdminPages extends AdminSettings
 
     // TODO: Implements the function to add page/tabs/sections/fields at once.
 
+
     // NOTE: @array $args -- single array for the single page and multi-array for the multiple pages
     public function add_option_pages( array $args ) : void
     {
@@ -57,12 +60,12 @@ class AdminPages extends AdminSettings
         {
             if( ! is_array( $value ) )
             {
-                array_push( $this->option_pages, $args );
+                array_push( $this->admin_option_pages, $args );
                 return;
             }
             else
             {
-                array_push( $this->option_pages, $value );
+                array_push( $this->admin_option_pages, $value );
             }
         }
     }
@@ -145,9 +148,21 @@ class AdminPages extends AdminSettings
         );
     }
 
+    public function register_admin_enqueue_scripts( $hooks )
+    {
+        wp_enqueue_style(
+            $this->plugin_options->get( 'plugin_slug' ) . '_admin_main',
+            $this->plugin_options->get( 'plugin_dir_url' ) . 'Public/AdminAssets/StyleSheets/AdminMain.css'
+        );
+        wp_enqueue_script(
+            $this->plugin_options->get( 'plugin_slug' ) . '_admin_main',
+            $this->plugin_options->get( 'plugin_dir_url' ) . 'Public/AdminAssets/JavaScripts/AdminMain.js'
+        );
+    }
+
     public function register_option_pages() : void
     {
-        foreach( $this->option_pages as $page )
+        foreach( $this->admin_option_pages as $page )
         {
             $page[ 'page_slug' ] = $this->plugin_options->get( 'plugin_slug' ) . '_' . $page[ 'page_slug' ];
             if( isset( $page[ 'page_ui' ] ) )
