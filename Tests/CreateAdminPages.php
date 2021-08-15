@@ -199,36 +199,87 @@ class CreateAdminPages
                     'option_parent_page_slug'    => 'test_options_page_02',
                     'option_parent_tab_slug'     => 'test_tab_01',
                     'option_parent_section_slug' => 'test_section_01',
-                    'option_slug'         => 'test_option_01',
-                    'option_title'        => 'Test Option 01',
+                    'option_slug'         => 'test_input_option',
+                    'option_title'        => 'Test Input Option',
                     'option_data_type'    => 'string',
                     'option_type'         => 'text',
-                    // 'option_default_value' => false,
-                    'option_description'  => 'This is the description for the test option 01',
+                    'option_default_value' => 'Test Input Default Value',
+                    'option_description'  => 'This is the description for the test input option',
                     // 'option_sanitize_callback' => '',
                     // 'option_show_in_rest' => false,
                     // 'option_ui' => '',
-                    // 'option_class' => 'test-css-class',
-                    // 'option_placeholder' => 'Test option placeholder',
-                    'option_help_icon' => 'dashicons dashicons-editor-help',
-                    'option_help_icon_style' => 'Test option placeholder',
+                    // 'option_class' => 'bg',
+                    'option_placeholder' => 'Test input option placeholder',
+                    'option_help_message' => 'This is the tooltip for the test input option',
+                    // 'option_help_icon' => 'dashicons dashicons-editor-help',
+                    // 'option_help_icon_style' => 'color:red;',
+                    // 'option_required' => true,
+                    // 'option_readonly' => true,
+                    // 'option_disabled' => true,
                 ],
                 [
                     'option_parent_page_slug' => 'test_options_page_02', // Required
                     'option_parent_tab_slug' => 'test_tab_01', // Optional
-                    'option_parent_section_slug' => 'test_section_02', // Optional
-                    'option_slug' => 'test_option_02', // Required
-                    'option_title' => 'Test Option 02 Test Option 02 Test Option 02', // Required
-                    'option_data_type' => 'string', // Optional
-                    'option_type' => 'text', // Optional
-                    // 'option_default_value' => true,                                            // Optional
-                    'option_description' => 'This is the description for the test option 02', // Optional
+                    'option_parent_section_slug' => 'test_section_01', // Optional
+                    'option_slug' => 'test_checkbox_option', // Required
+                    'option_title' => 'Test Checkbox Option', // Required
+                    'option_data_type' => 'boolean', // Optional
+                    'option_type' => 'checkbox', // Optional
+                    'option_default_value' => true,                                         // Optional
+                    'option_description' => 'This is the description for the test checkbox option', // Optional
                     // 'option_sanitize_callback' => '',                                           // Optional
                     // 'option_show_in_rest' => false,                                             // Optional
                     // 'option_ui' => '',                                                          // Optional
-                    // 'option_class' => 'test-css-class',                                         // Optional
+                    // 'option_class' => 'bg',                                         // Optional
                     // 'option_placeholder' => 'Test option placeholder',                          // Optional
-                    'option_help_icon' => 'dashicons dashicons-admin-generic',
+                    'option_help_message' => 'This is the tooltip for the test checkbox option',
+                    // 'option_help_icon' => 'dashicons dashicons-editor-help',
+                    // 'option_required' => true,
+                    // 'option_readonly' => true,
+                    // 'option_disabled' => true,
+                ],
+                [
+                    'option_parent_page_slug' => 'test_options_page_02', // Required
+                    'option_parent_tab_slug' => 'test_tab_01', // Optional
+                    'option_parent_section_slug' => 'test_section_01', // Optional
+                    'option_slug' => 'test_textarea_option', // Required
+                    'option_title' => 'Test Textarea Option', // Required
+                    'option_data_type' => 'string', // Optional
+                    'option_type' => 'textarea', // Optional
+                    'option_default_value' => 'Textarea Default Value',                                            // Optional
+                    'option_description' => 'This is the description for the test textarea option', // Optional
+                    // 'option_sanitize_callback' => '',                                           // Optional
+                    // 'option_show_in_rest' => false,                                             // Optional
+                    // 'option_ui' => '',                                                          // Optional
+                    // 'option_class' => 'bg',                                         // Optional
+                    // 'option_placeholder' => 'Test option placeholder',                          // Optional
+                    'option_help_message' => 'This is the tooltip for the test textarea option',
+                    // 'option_help_icon' => 'dashicons dashicons-editor-help',
+                    // 'option_required' => true,
+                    // 'option_readonly' => true,
+                    // 'option_disabled' => true,
+                ],
+                [
+                    'option_parent_page_slug' => 'test_options_page_02', // Required
+                    'option_parent_tab_slug' => 'test_tab_01', // Optional
+                    'option_parent_section_slug' => 'test_section_01', // Optional
+                    'option_slug' => 'test_select_option', // Required
+                    'option_title' => 'Test Select Option', // Required
+                    'option_data_type' => 'string', // Optional
+                    'option_type' => 'select', // Optional
+                    'option_default_value' => 'Select Default Value',                                            // Optional
+                    'option_description' => 'This is the description for the test select option', // Optional
+                    // 'option_sanitize_callback' => '',                                           // Optional
+                    // 'option_show_in_rest' => false,                                             // Optional
+                    // 'option_ui' => '',                                                          // Optional
+                    // 'option_class' => 'bg',                                         // Optional
+                    // 'option_placeholder' => 'Test option placeholder',                          // Optional
+                    'option_help_message' => 'This is the tooltip for the test select option',
+                    // 'option_help_icon' => 'dashicons dashicons-editor-help',
+                    // 'option_required' => true,
+                    // 'option_readonly' => true,
+                    // 'option_disabled' => true,
+                    'option_list' => [ 'test_item_01' => 'Test Item 01', 'test_item_02' => 'Test Item 02', 'test_item_03' => 'Test Item 03', 'test_item_04' => 'Test Item 04', ],
                 ],
                 [
                     'option_parent_page_slug' => 'test_options_page_03', // Required
@@ -286,6 +337,15 @@ class CreateAdminPages
             }
         );
 
+        add_filter(
+            'before_option_render_' . $this->plugin_options->get( 'plugin_slug' ) . '_test_options_page_02_test_option_01',
+            function( $option )
+            {
+                $option[ 'option_help_icon_style' ] = 'color:blue;';
+                // $option[ 'option_disabled' ] = true;
+                return $option;
+            }
+        );
 
     }
 

@@ -2,6 +2,8 @@
 
 namespace IamProgrammerLK\PluginPressAPI\Admin;
 
+use IamProgrammerLK\PluginPressAPI\UI\UI;
+
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )
 {
@@ -100,7 +102,7 @@ trait AdminSettingsUI
                             continue;
                         }
                         echo '<table class="form-table" role="presentation">';
-                        $this->do_settings_fields( $current_page[ 'page_slug' ], $section[ 'section_slug' ] );
+                        $this->render_settings_fields( $current_page[ 'page_slug' ], $section[ 'section_slug' ] );
                         echo '</table>';
                     }
                 }
@@ -122,64 +124,42 @@ trait AdminSettingsUI
         }
     }
 
-    public function render_fields( $args ) : void
-    {
-        // TODO: echo deferent elements baced on the callback setting (text input/text area/checkbox/radio button/ext)
-
-        echo '<input type="text" name="' . $args[ 'option_slug' ] .
-            '" id="' . $args[ 'option_slug' ] .
-            '" value="' . get_option( $args[ 'option_slug' ] ) .
-            '" placeholder="' . $args[ 'option_placeholder' ] .
-            '" class="' . $args[ 'option_class' ] .
-            // '" style="' . $args[ 'css_style' ] .
-            '"/><p>' . $args[ 'option_description' ] . '</p>';
-    }
-
-    private function do_settings_fields( $page, $section )
+    public function render_settings_fields( $page, $section )
     {
         global $wp_settings_fields;
         if( ! isset( $wp_settings_fields[ $page ][ $section ] ) )
         {
             return;
         }
-    
-        foreach( (array) $wp_settings_fields[ $page ][ $section ] as $field )
+        foreach( ( array ) $wp_settings_fields[ $page ][ $section ] as $field )
         {
+            // HOOK: Filter before_option_render_{OPTION_SLUG}
+            $field[ 'args' ] = apply_filters( 'before_option_render_' . $field[ 'args' ][ 'option_slug' ] , $field[ 'args' ] );
             $class = '';
-            if( ! empty( $field[ 'args' ][ 'class' ] ) )
+            if( ! empty( $field[ 'args' ][ 'option_class' ] ) )
             {
-                $class = ' class="' . esc_attr( $field[ 'args' ][ 'class' ] ) . '" valign="top"';
+                $class = 'class="' . esc_attr( $field[ 'args' ][ 'option_class' ] ) . '" valign="top"';
             }
-            echo "<tr{$class}>";
-            echo '<th scope="row"><div style="display:inline-block;vertical-align:top;"> <div>
-            lorem 
-            <div class="word">
-              ipsum
-              <div class="definition">this will be the tooltip text</div>
-            </div> 
-            blah blah blah
-          </div>';
+            echo '<tr ' . $class . '><th scope="row"><div style="display:inline-block;vertical-align:top;">';
             echo '<label for="' . esc_attr( $field[ 'args' ][ 'label_for' ] ) . '" style="vertical-align:baseline;">' . $field[ 'title' ] . '</label>';
-
-
-            echo '<div class="tooltip"><span style="vertical-align:baseline;margin-left:5px;' .
-                ( isset( $field[ 'args' ][ 'section_before_icon_style' ] ) ? $field[ 'args' ][ 'section_before_icon_style' ] : '' ) .'"><i class="' .
-                $field[ 'args' ][ 'option_help_icon' ] . '" aria-hidden="true"></i></span>' .
-            '<span class="tooltip_text">Tooltip</span>
-            
-          </div>';
-            
-            
-            
-            // '"><i class="tooltip-text ' . $field[ 'args' ][ 'option_help_icon' ] . '" aria-hidden="true"></i></span>';
-
-            echo '</div></th>';
-            echo '<td>';
-            call_user_func( $field['callback'], $field['args'] );
-            echo '</td>';
-            echo '</tr>';
+            if ( isset( $field[ 'args' ][ 'option_help_message' ] ) )
+            {
+                $icon_style = ( isset( $field[ 'args' ][ 'option_help_icon_style' ] ) ? $field[ 'args' ][ 'option_help_icon_style' ] : '' );
+                $icon = ( isset( $field[ 'args' ][ 'option_help_icon' ] ) ? $field[ 'args' ][ 'option_help_icon' ] : 'dashicons dashicons-editor-help' );
+                echo '<div class="pluginpress_tooltip"><span style="vertical-align:baseline;margin-left:5px;' . $icon_style .'">';
+                echo '<i class="' . $icon . '" aria-hidden="true"></i></span><span class="pluginpress_tooltip_text">' . $field[ 'args' ][ 'option_help_message' ] . '</span>';
+                echo '</div>';
+            }
+            echo '</div></th><td>';
+            call_user_func( $field[ 'callback' ], $field[ 'args' ] );
+            echo '</td></tr>';
         }
     }
-    
-    // echo '<span class="woocommerce-help-tip"></span>';
+
+    public function render_fields( $args ) : void
+    {
+        echo UI::get( $args );
+        echo '<p>' . $args[ 'option_description' ] . '</p>';
+    }
+
 }

@@ -217,6 +217,7 @@ class AdminSettings
     private function add_field( $field ) : void
     {
         $field[ 'option_parent_page_slug' ] = $this->plugin_options->get( 'plugin_slug' ) . '_' . $field[ 'option_parent_page_slug' ];
+        $field[ 'option_slug' ] = $field[ 'option_parent_page_slug' ] . '_' . $field[ 'option_slug' ];
         if( ! isset( $field[ 'option_parent_tab_slug' ] ) || empty( $field[ 'option_parent_tab_slug' ] ) )
         {
             $field[ 'option_parent_tab_slug' ] = 'default';
@@ -233,7 +234,14 @@ class AdminSettings
         {
             $field[ 'option_parent_section_slug' ] = $field[ 'option_parent_page_slug' ] . '_' . $field[ 'option_parent_section_slug' ];
         }
-        $field[ 'option_slug' ] = $field[ 'option_parent_page_slug' ] . '_' . $field[ 'option_slug' ];
+        if( ! isset( $field[ 'option_class' ] ) || empty( $field[ 'option_class' ] ) )
+        {
+            $field[ 'option_class' ] = '';
+        }
+        else
+        {
+            $field[ 'option_class' ] = $field[ 'option_class' ];
+        }
         if( ! isset( $field[ 'option_data_type' ] ) || empty( $field[ 'option_data_type' ] ) )
         {
             $field[ 'option_data_type' ] = 'string';
@@ -241,11 +249,6 @@ class AdminSettings
         if( ! isset( $field[ 'option_description' ] ) || empty( $field[ 'option_description' ] ) )
         {
             $field[ 'option_description' ] = '';
-        }
-        if( ! isset( $field[ 'option_sanitize_callback' ] ) || empty( $field[ 'option_sanitize_callback' ] ) )
-        {
-            // TODO: implement the sanitized data function
-            $field[ 'option_sanitize_callback' ] = NULL;
         }
         if( ! isset( $field[ 'option_show_in_rest' ] ) || empty( $field[ 'option_show_in_rest' ] ) )
         {
@@ -255,19 +258,9 @@ class AdminSettings
         {
             $field[ 'option_default_value' ] = false;
         }
-        if( ! isset( $field[ 'option_ui' ] ) || empty( $field[ 'option_ui' ] ) )
+        if( ! isset( $field[ 'option_style' ] ) || empty( $field[ 'option_style' ] ) )
         {
-            $field[ 'option_ui' ] = [ $this, 'render_fields' ];
-        }
-        if( ! isset( $field[ 'option_class' ] ) || empty( $field[ 'option_class' ] ) )
-        {
-            $field[ 'class' ] = '';
-            $field[ 'option_class' ] = '';
-        }
-        else
-        {
-            $field[ 'class' ] = $field[ 'option_class' ];
-            $field[ 'option_class' ] = $field[ 'option_class' ];
+            $field[ 'option_style' ] = '';
         }
         if( ! isset( $field[ 'option_type' ] ) || empty( $field[ 'option_type' ] ) )
         {
@@ -280,6 +273,59 @@ class AdminSettings
         if( ! isset( $field[ 'label_for' ] ) || empty( $field[ 'label_for' ] ) )
         {
             $field[ 'label_for' ] = $field[ 'option_slug' ];
+        }
+        if( ! isset( $field[ 'option_disabled' ] ) || empty( $field[ 'option_disabled' ] ) )
+        {
+            $field[ 'option_disabled' ] = false;
+        }
+        if( ! isset( $field[ 'option_checked' ] ) || empty( $field[ 'option_checked' ] ) )
+        {
+            $field[ 'option_checked' ] = false;
+        }
+        if( ! isset( $field[ 'option_list' ] ) || empty( $field[ 'option_list' ] ) )
+        {
+            $field[ 'option_list' ] = '';
+        }
+        if( ! isset( $field[ 'option_hidden' ] ) || empty( $field[ 'option_hidden' ] ) )
+        {
+            $field[ 'option_hidden' ] = false;
+        }
+        if( ! isset( $field[ 'option_max' ] ) || empty( $field[ 'option_max' ] ) )
+        {
+            $field[ 'option_max' ] = '';
+        }
+        if( ! isset( $field[ 'option_max_length' ] ) || empty( $field[ 'option_max_length' ] ) )
+        {
+            $field[ 'option_max_length' ] = '';
+        }
+        if( ! isset( $field[ 'option_min' ] ) || empty( $field[ 'option_min' ] ) )
+        {
+            $field[ 'option_min' ] = '';
+        }
+        if( ! isset( $field[ 'option_min_length' ] ) || empty( $field[ 'option_min_length' ] ) )
+        {
+            $field[ 'option_min_length' ] = false;
+        }
+        if( ! isset( $field[ 'option_content_editable' ] ) || empty( $field[ 'option_content_editable' ] ) )
+        {
+            $field[ 'option_content_editable' ] = false;
+        }
+        if( ! isset( $field[ 'option_required' ] ) || empty( $field[ 'option_required' ] ) )
+        {
+            $field[ 'option_required' ] = false;
+        }
+        if( ! isset( $field[ 'option_readonly' ] ) || empty( $field[ 'option_readonly' ] ) )
+        {
+            $field[ 'option_readonly' ] = false;
+        }
+        if( ! isset( $field[ 'option_ui' ] ) || empty( $field[ 'option_ui' ] ) )
+        {
+            $field[ 'option_ui' ] = [ $this, 'render_fields' ];
+        }
+        if( ! isset( $field[ 'option_sanitize_callback' ] ) || empty( $field[ 'option_sanitize_callback' ] ) )
+        {
+            // TODO: implement the sanitized data function
+            $field[ 'option_sanitize_callback' ] = NULL;
         }
         array_push( $this->fields, $field );
     }

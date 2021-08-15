@@ -24,9 +24,6 @@ trait AdminPagesUI
         {
             $page_tabs = $this->get_current_page_tabs( $current_page );
             $active_tab = $this->get_active_tab( $page_tabs );
-            
-            // echo '<pre> '; print_r( $page_tabs ); echo ' </pre>'; die();
-
             if( $active_tab )
             {
                 $this->render_tabs( $page_tabs );

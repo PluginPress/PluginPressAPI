@@ -1,16 +1,17 @@
 
-.tooltip
+.pluginpress_tooltip
 {
   position: relative;
   display: inline-block;
   cursor: help;
 }
 
-.tooltip
-.tooltip_text
+.pluginpress_tooltip
+.pluginpress_tooltip_text
 {
+  font-size: 85%;
   visibility: hidden;
-  background-color: black;
+  background-color: #3c434a;
   color: #fff;
   text-align: center;
   padding: 6px 6px;
@@ -25,8 +26,8 @@
   transition: opacity 0.5s;
 }
 
-.tooltip
-.tooltip_text::after
+.pluginpress_tooltip
+.pluginpress_tooltip_text::after
 {
   content: " ";
   position: absolute;
@@ -35,36 +36,25 @@
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: black transparent transparent transparent;
+  border-color: #3c434a transparent transparent transparent;
 }
 
-.tooltip:hover
-.tooltip_text
+.pluginpress_tooltip:hover
+.pluginpress_tooltip_text
 {
   visibility: visible;
   opacity: 1;
 }
 
-
-
-
-.word {
-  display: inline-block;
-  position: relative;
-  background-color: lightyellow;
+/* .bg
+{
+  border-bottom: #dcdcde solid 1px;
 }
-
-.definition { 
-  display: none;
+.bg label
+{
+  padding-left: 5px;
 }
-
-.word:hover > .definition {
-  display: inline-block;
-  position: absolute;
-  bottom: 100%;
-  left: calc(50%);
-  transform: translateX(-50%);
-  padding: 3px;
-  border: 1px solid blue;
-  white-space: nowrap;
-}
+.bg input
+{
+  background-color: sandybrown;
+} */
