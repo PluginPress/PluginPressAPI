@@ -151,12 +151,12 @@ class AdminPages extends AdminSettings
     public function register_admin_enqueue_scripts( $hooks )
     {
         wp_enqueue_style(
-            $this->plugin_options->get( 'plugin_slug' ) . '_admin_main',
-            $this->plugin_options->get( 'plugin_dir_url' ) . 'Public/AdminAssets/StyleSheets/AdminMain.css'
+            'pluginpressapi_admin_main',
+            $this->plugin_options->get( 'plugin_dir_url' ) . 'vendor/iamprogrammerlk/pluginpressapi/Public/AdminAssets/StyleSheets/AdminMain.css'
         );
         wp_enqueue_script(
-            $this->plugin_options->get( 'plugin_slug' ) . '_admin_main',
-            $this->plugin_options->get( 'plugin_dir_url' ) . 'Public/AdminAssets/JavaScripts/AdminMain.js'
+            'pluginpressapi_admin_main',
+            $this->plugin_options->get( 'plugin_dir_url' ) . 'vendor/iamprogrammerlk/pluginpressapi/Public/AdminAssets/JavaScripts/AdminMain.js'
         );
     }
 
