@@ -87,9 +87,11 @@ trait AdminPagesUI
         }
         else
         {
-            echo '<div class="page-footer"><p><i>Thank you for using <a href="' . $this->plugin_options->get( 'plugin_url' ) . '" > ' .
+            echo '<div class="page-footer"><p><i>Thank you for using <a href="' . $this->plugin_options->get( 'plugin_url' ) .
+                '" title="' . $this->plugin_options->get( 'plugin_name' ) . '"> ' .
                 $this->plugin_options->get( 'plugin_name' ) . '</a> - Please consider leaving your valued <a href="' . $this->plugin_options->get( 'plugin_feedback_url' ) .
-                '">feedback <a href="' . $this->plugin_options->get( 'plugin_feedback_url' ) . '" style="color:#D97D0D;"><span class="dashicons-before dashicons-star-half">' .
+                '" title="' . $this->plugin_options->get( 'plugin_name' ) . '">feedback <a href="' . $this->plugin_options->get( 'plugin_feedback_url' ) .
+                '" title="' . $this->plugin_options->get( 'plugin_name' ) . '" style="color:#D97D0D;"><span class="dashicons-before dashicons-star-half">' .
                 '<span class="dashicons-before dashicons-star-half"><span class="dashicons-before dashicons-star-half"><span class="dashicons-before dashicons-star-half">' .
                 '<span class="dashicons-before dashicons-star-half"></a></i></p>';
         }
