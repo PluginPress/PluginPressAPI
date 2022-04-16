@@ -1,5 +1,5 @@
 {
-  "name": "iamprogrammerlk/pluginpressapi",
+  "name": "pluginpress/pluginpressapi",
   "description": "API wrapper classes for building object-oriented WordPress plugins.",
   "type": "library",
   "keywords": [
@@ -9,7 +9,7 @@
     "framework",
     "skeleton"
   ],
-  "homepage": "https://iamprogrammerlk.github.io/PluginPressAPI/",
+  "homepage": "https://pluginpress.github.io/PluginPressAPI/",
   "readme": "README.md",
   "time": "2021-07-27",
   "license": "MIT",
@@ -23,11 +23,11 @@
   ],
   "support": {
     "email": "support@iamprogrammer.lk",
-    "issues": "https://github.com/IamProgrammerLK/PluginPressAPI/issues",
+    "issues": "https://github.com/PluginPress/PluginPressAPI/issues",
     "forum": "https://community.iamprogrammer.lk",
-    "wiki": "https://github.com/IamProgrammerLK/PluginPressAPI/wiki",
-    "source": "https://github.com/IamProgrammerLK/PluginPressAPI",
-    "docs": "https://github.com/IamProgrammerLK/PluginPressAPI/wiki"
+    "wiki": "https://github.com/PluginPress/PluginPressAPI/wiki",
+    "source": "https://github.com/PluginPress/PluginPressAPI",
+    "docs": "https://github.com/PluginPress/PluginPressAPI/wiki"
   },
   "funding": [
     {
@@ -49,13 +49,13 @@
 },
 "autoload": {
   "psr-4": {
-    "IamProgrammerLK\\PluginPressAPI\\": "Private"
+    "PluginPress\\PluginPressAPI\\": "Private"
   }
 },
 "autoload-dev": {
   "psr-4": {
-    "IamProgrammerLK\\PluginPressAPI\\": "Private",
-    "IamProgrammerLK\\TestPlugin\\": "Tests"
+    "PluginPress\\PluginPressAPI\\": "Private",
+    "PluginPress\\TestPlugin\\": "Tests"
   }
 },
 "minimum-stability": "stable",

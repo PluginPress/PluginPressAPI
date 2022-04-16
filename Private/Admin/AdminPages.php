@@ -1,8 +1,8 @@
 <?php
 
-namespace IamProgrammerLK\PluginPressAPI\Admin;
+namespace PluginPress\PluginPressAPI\Admin;
 
-use IamprogrammerLK\PluginPressAPI\PluginOptions\PluginOptions;
+use PluginPress\PluginPressAPI\PluginOptions\PluginOptions;
 
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )
@@ -152,11 +152,11 @@ class AdminPages extends AdminSettings
     {
         wp_enqueue_style(
             'pluginpressapi_admin_main',
-            $this->plugin_options->get( 'plugin_dir_url' ) . 'vendor/iamprogrammerlk/pluginpressapi/Public/AdminAssets/StyleSheets/AdminMain.css'
+            $this->plugin_options->get( 'plugin_dir_url' ) . 'vendor/PluginPress/pluginpressapi/Public/AdminAssets/StyleSheets/AdminMain.css'
         );
         wp_enqueue_script(
             'pluginpressapi_admin_main',
-            $this->plugin_options->get( 'plugin_dir_url' ) . 'vendor/iamprogrammerlk/pluginpressapi/Public/AdminAssets/JavaScripts/AdminMain.js'
+            $this->plugin_options->get( 'plugin_dir_url' ) . 'vendor/PluginPress/pluginpressapi/Public/AdminAssets/JavaScripts/AdminMain.js'
         );
     }
 

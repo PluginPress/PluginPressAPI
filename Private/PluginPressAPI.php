@@ -1,10 +1,10 @@
 <?php
 
-namespace IamprogrammerLK\PluginPressAPI;
+namespace PluginPress\PluginPressAPI;
 
-use IamProgrammerLK\PluginPressAPI\PluginOptions\PluginOptions;
-use IamProgrammerLK\PluginPressAPI\PluginActivator\PluginActivator;
-use IamProgrammerLK\PluginPressAPI\WordPress\PluginsPageCustomizer;
+use PluginPress\PluginPressAPI\PluginOptions\PluginOptions;
+use PluginPress\PluginPressAPI\PluginActivator\PluginActivator;
+use PluginPress\PluginPressAPI\WordPress\PluginsPageCustomizer;
 
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )

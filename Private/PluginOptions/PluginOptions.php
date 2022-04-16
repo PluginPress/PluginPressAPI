@@ -1,6 +1,6 @@
 <?php
 
-namespace IamProgrammerLK\PluginPressAPI\PluginOptions;
+namespace PluginPress\PluginPressAPI\PluginOptions;
 
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )

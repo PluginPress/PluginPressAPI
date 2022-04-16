@@ -1,8 +1,8 @@
 <?php
 
-namespace IamProgrammerLK\PluginPressAPI\WordPress;
+namespace PluginPress\PluginPressAPI\WordPress;
 
-use IamProgrammerLK\PluginPressAPI\PluginOptions\PluginOptions;
+use PluginPress\PluginPressAPI\PluginOptions\PluginOptions;
 
 // If this file is called directly, abort. for the security purpose.
 if( ! defined( 'WPINC' ) )
