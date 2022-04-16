@@ -97,6 +97,9 @@ class UI
             case 'text':
                 return self::text( $args );
                 break;
+            case 'number':
+                return self::number( $args );
+                break;
             case 'checkbox':
                 return self::checkbox( $args );
                 break;
@@ -114,13 +117,34 @@ class UI
         $html = self::get_html( $args );
         $html = '<input ' .
             $html[ 'disabled' ] . ' ' .
-            'value="' . $html[ 'value' ] . '" ' .
+            'value="' . esc_html( $html[ 'value' ] ) . '" ' .
             $html[ 'max' ] . ' ' .
             $html[ 'max_length' ] . ' ' .
             $html[ 'min' ] . ' ' .
             $html[ 'min_length' ] . ' ' .
             $html[ 'name' ] . ' ' .
             $html[ 'placeholder' ] . ' ' .
+            $html[ 'readonly' ] . ' ' .
+            $html[ 'required' ] . ' ' .
+            $html[ 'type' ] . ' ' .
+            $html[ 'class' ] . ' ' .
+            $html[ 'content_editable' ] . ' ' .
+            $html[ 'hidden' ] . ' ' .
+            $html[ 'id' ] . ' ' .
+            $html[ 'style' ] . ' ' .
+            '/>';
+        return $html;
+    }
+
+    public static function number( $args )
+    {
+        $html = self::get_html( $args );
+        $html = '<input ' .
+            $html[ 'disabled' ] . ' ' .
+            'value="' . esc_html( $html[ 'value' ] ) . '" ' .
+            $html[ 'max' ] . ' ' .
+            $html[ 'min' ] . ' ' .
+            $html[ 'name' ] . ' ' .
             $html[ 'readonly' ] . ' ' .
             $html[ 'required' ] . ' ' .
             $html[ 'type' ] . ' ' .
@@ -171,7 +195,7 @@ class UI
             $html[ 'id' ] . ' ' .
             $html[ 'style' ] . ' ' .
             '>' . 
-            $html[ 'value' ] .
+            esc_html( $html[ 'value' ] ) .
             '</textarea>';
         return $html;
     }
