@@ -56,7 +56,7 @@ class PluginOptions
             // Plugin basename. sanitize_key( 'basename' )
             'plugin_base_name' => $plugin_dir_name . "/" . $plugin_file_name,
             // Plugin directory name
-            'plugin_dir_name' => $plugin_dir_name,  
+            'plugin_dir_name' => $plugin_dir_name,
             // Plugin file name
             'plugin_file_name' => str_replace( '.php', '', $plugin_file_name ),
             // Plugin directory url
@@ -65,7 +65,7 @@ class PluginOptions
             'plugin_dir_path' => plugin_dir_path( $plugin_file_path ),
             // Plugin file path
             'plugin_file_path' => $plugin_file_path,
-            // For plugin version compatibility check 
+            // For plugin version compatibility check
             'plugin_disabled' => false,
         ];
         $header_keys = [

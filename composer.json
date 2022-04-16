@@ -55,7 +55,7 @@
 "autoload-dev": {
   "psr-4": {
     "PluginPress\\PluginPressAPI\\": "Private",
-    "PluginPress\\TestPlugin\\": "Tests"
+    "PluginPress\\TestPlugin\\": "TestPlugin"
   }
 },
 "minimum-stability": "stable",

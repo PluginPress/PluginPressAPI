@@ -121,7 +121,7 @@ class AdminPages extends AdminSettings
         if( ! isset( $args[ 'page_show_always' ] ) || $args[ 'page_show_always' ] == false )
         {
             add_action(
-                'admin_head', 
+                'admin_head',
                 function()
                 {
                     remove_submenu_page( 'index.php', $this->plugin_options->get( 'plugin_slug' ) . '_welcome_page' );
@@ -129,7 +129,7 @@ class AdminPages extends AdminSettings
             );
         }
         add_action(
-            'admin_init', 
+            'admin_init',
             function()
             {
                 if( ! get_transient( $this->plugin_options->get( 'plugin_slug' ) . '_welcome_page_redirect' ) )
@@ -152,11 +152,11 @@ class AdminPages extends AdminSettings
     {
         wp_enqueue_style(
             'pluginpressapi_admin_main',
-            $this->plugin_options->get( 'plugin_dir_url' ) . 'vendor/PluginPress/pluginpressapi/Public/AdminAssets/StyleSheets/AdminMain.css'
+            $this->plugin_options->get( 'plugin_dir_url' ) . 'vendor/pluginpress/pluginpressapi/Public/AdminAssets/StyleSheets/AdminMain.css'
         );
         wp_enqueue_script(
             'pluginpressapi_admin_main',
-            $this->plugin_options->get( 'plugin_dir_url' ) . 'vendor/PluginPress/pluginpressapi/Public/AdminAssets/JavaScripts/AdminMain.js'
+            $this->plugin_options->get( 'plugin_dir_url' ) . 'vendor/pluginpress/pluginpressapi/Public/AdminAssets/JavaScripts/AdminMain.js'
         );
     }
 
